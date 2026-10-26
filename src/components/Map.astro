@@ -1,15 +1,14 @@
 ---
 /* Carte OpenStreetMap via Leaflet (dépendance npm, pas de CDN).
    Centre : Le Gohélis, hameau d’Elven (Nominatim). Depuis ce point,
-   Vannes est à ~15 km, Ploërmel à ~27 km, Redon à ~37 km : les cercles
-   de 15, 30 et 45 km recouvrent ces trois villes citées sur la page.
-   Les frais de déplacement n’ont pas de rayon écrit : ils restent une phrase. */
+   Vannes est à ~15 km (dans le cercle de 20 km), Ploërmel à ~27 km
+   (dans celui de 30 km). Redon est à ~37 km, donc hors du cercle de 30 km. */
 import 'leaflet/dist/leaflet.css';
 
 const zones = [
-  { km: 15, label: '15 km · Vannes', color: '#F2B51C' },
-  { km: 30, label: '30 km · Ploërmel', color: '#D9B99B' },
-  { km: 45, label: '45 km · Redon', color: '#3B3129' },
+  { km: 15, label: '15 km', color: '#F2B51C' },
+  { km: 20, label: '20 km · Vannes', color: '#D9B99B' },
+  { km: 30, label: '30 km · Ploërmel', color: '#3B3129' },
 ];
 ---
 <figure class="osmap">
@@ -38,8 +37,8 @@ const zones = [
 
   const center: L.LatLngExpression = [47.7157271, -2.5722259];
   const rings = [
-    { km: 45, color: '#3B3129', fill: 0.14 },
-    { km: 30, color: '#D9B99B', fill: 0.28 },
+    { km: 30, color: '#3B3129', fill: 0.14 },
+    { km: 20, color: '#D9B99B', fill: 0.28 },
     { km: 15, color: '#F2B51C', fill: 0.38 },
   ];
 
