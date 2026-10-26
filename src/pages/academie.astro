@@ -1,0 +1,201 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+import { videos, parcours } from '../data/content';
+---
+<Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHhabitat." active="academie" footerRule>
+  <header class="ahero on-brun">
+    <div class="deco-dots deco-dots--brun ahero__dots"></div>
+    <img src="/assets/casque.png" alt="" class="ahero__casque" width="560" height="500" loading="eager" />
+    <p class="eyebrow">Académie · chaîne YouTube «&nbsp;{site.youtube.name}&nbsp;»</p>
+    <h1 class="t-hero ahero__title">Les gestes du chantier, filmés de près.</h1>
+    <p class="lead ahero__lead">Pas de visage, pas de blabla : un casque, deux mains et la technique expliquée étape par étape. Gratuit sur YouTube, approfondi dans les parcours de l’Académie.</p>
+    <a href="#liste" class="btn btn--primary">Rejoindre la liste d’attente</a>
+  </header>
+
+  <section class="section videos">
+    <div class="deco-tri deco-tri--tl"></div>
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Sur la chaîne</p>
+      <h2 class="t-section">Les premières vidéos.</h2>
+    </div>
+    <div class="videos__grid container" data-reveal>
+      {videos.map((v) => (
+        <article class="video">
+          <a href={v.url ?? site.youtube.url} class="video__thumb-link" rel="noopener" aria-label={`Regarder : ${v.titre}`}>
+            <Photo photo={v.photo} ratio="16 / 9" kind="vignette" class="video__thumb">
+              <span class="video__play" aria-hidden="true"><span></span></span>
+              <span class="video__duration">{v.duree}</span>
+            </Photo>
+          </a>
+          <h3 class="video__title">{v.titre}</h3>
+          <span class="video__track">{v.parcours}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--alt tracks">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Les parcours</p>
+      <h2 class="t-section">Quatre parcours, du premier coup de masse à la dernière finition.</h2>
+    </div>
+    <div class="tracks__grid container" data-reveal>
+      {parcours.map((p) => (
+        <article class="card-sable track">
+          <span class="track__num">{p.num}</span>
+          <h3 class="track__title">{p.titre}</h3>
+          <p class="track__desc">{p.desc}</p>
+          <span class="track__meta">{p.meta}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section offers">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Deux formules</p>
+      <h2 class="t-section">Regardez gratuitement. Apprenez en profondeur.</h2>
+    </div>
+    <div class="offers__grid" data-reveal>
+      <article class="offer card-surface">
+        <span class="offer__eyebrow">Accès libre</span>
+        <div class="offer__price"><span class="offer__amount">0&nbsp;€</span><span class="offer__unit">pour toujours</span></div>
+        <div class="offer__list">
+          <span>Toutes les vidéos YouTube</span>
+          <span>La newsletter du chantier</span>
+          <span>Un cours d’essai complet</span>
+        </div>
+        <a href={site.youtube.url} class="btn btn--outline-dark offer__cta offer__cta--dark" rel="noopener">Voir la chaîne</a>
+      </article>
+      <article class="offer offer--brun on-brun">
+        <div class="offer__dots"></div>
+        <span class="offer__eyebrow">Académie</span>
+        <div class="offer__prices">
+          <div class="offer__price"><span class="offer__amount">—&nbsp;€</span><span class="offer__unit">par mois</span></div>
+          <div class="offer__price"><span class="offer__amount offer__amount--small">—&nbsp;€</span><span class="offer__unit">par an</span></div>
+        </div>
+        <div class="offer__list">
+          <span>Tous les parcours de cours</span>
+          <span>Fiches PDF à imprimer pour le chantier</span>
+          <span>Vos questions au coach</span>
+        </div>
+        <a href="#liste" class="btn btn--primary offer__cta">Être prévenu du lancement</a>
+      </article>
+    </div>
+    <p class="offers__note">Les cours sont hébergés sur une plateforme externe ; prix définitifs communiqués au lancement.</p>
+  </section>
+
+  <section id="liste" class="section on-brun waitlist">
+    <div class="deco-tri deco-tri--br deco-tri--light"></div>
+    <div class="waitlist__inner" data-reveal>
+      <p class="eyebrow waitlist__eyebrow">Bientôt disponible</p>
+      <h2 class="t-section waitlist__title">Soyez prévenu à l’ouverture.</h2>
+      <p class="waitlist__text">Une adresse email, rien d’autre. Vous recevrez la première vidéo et le cours d’essai en avant-première.</p>
+      <form class="waitlist__form" id="waitlist" method="post" action={site.forms.waitlist || undefined} data-endpoint={site.forms.waitlist} novalidate>
+        <label for="waitlist-email" class="visually-hidden">Votre adresse email</label>
+        <input id="waitlist-email" class="waitlist__input" type="email" name="email" required placeholder="votre@email.fr" autocomplete="email" />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
+        <input type="hidden" name="_subject" value="Liste d'attente Académie" />
+        <button type="submit" class="btn btn--primary waitlist__btn">Me prévenir</button>
+        <p class="waitlist__error" role="alert" hidden></p>
+      </form>
+      <p class="waitlist__done" role="status" hidden>Merci, vous êtes sur la liste.</p>
+      <p class="waitlist__note">Pas de spam. Désinscription en un clic.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero { padding: clamp(150px, 20vw, 220px) var(--pad-x) clamp(80px, 10vw, 140px); text-align: center; position: relative; overflow: hidden; }
+  .ahero__dots { left: 0; bottom: 0; width: min(40vw, 380px); height: min(40vw, 380px); background-image: radial-gradient(rgba(250, 248, 245, .2) 1px, transparent 1px); mask-image: linear-gradient(45deg, #000 30%, transparent 75%); -webkit-mask-image: linear-gradient(45deg, #000 30%, transparent 75%); }
+  .ahero__casque { width: min(40vw, 180px); height: auto; margin: 0 auto 28px; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .35)); }
+  .ahero__title { font-size: clamp(40px, 5.6vw, 80px); margin: 0 auto 24px; max-width: 18ch; }
+  .ahero__lead { margin: 0 auto 40px; max-width: 52ch; }
+
+  .videos__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--gutter); }
+  .video { display: flex; flex-direction: column; gap: 12px; }
+  .video__thumb-link { display: block; text-decoration: none; color: inherit; }
+  .video :global(.video__thumb) { align-items: flex-end; padding: 12px; }
+  .video :global(.video__thumb .photo__label) { font-size: 10.5px; padding: 4px 7px; }
+  .video__play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; border-radius: 50%; background: var(--brun); display: grid; place-items: center; transition: transform .2s; }
+  .video__thumb-link:hover .video__play { transform: translate(-50%, -50%) scale(1.06); }
+  .video__play span { display: block; width: 0; height: 0; border-style: solid; border-width: 9px 0 9px 15px; border-color: transparent transparent transparent var(--casque); margin-left: 4px; }
+  .video__duration { position: absolute; right: 12px; bottom: 12px; font-size: 11px; font-weight: 600; color: var(--on-brun); background: var(--ink); padding: 3px 7px; border-radius: 2px; }
+  .video__title { font-weight: 600; font-size: 15px; margin: 0; line-height: 1.4; }
+  .video__track { font-size: 13px; color: var(--muted); }
+
+  .tracks__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: var(--gutter); }
+  .track { --cut: 48px; padding: 44px 30px 34px; gap: 14px; min-height: 300px; }
+  .track__num { font-family: var(--font-display); font-size: 40px; line-height: 1; }
+  .track__title { font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.1; margin: 0; text-wrap: balance; }
+  .track__desc { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+  .track__meta { margin-top: auto; padding-top: 16px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted-dark); border-top: 1px solid rgba(42, 34, 28, .2); }
+
+  .offers__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: var(--gutter); max-width: 960px; margin: 0 auto; }
+  .offer { padding: 44px 36px 40px; display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden; }
+  .offer__dots { position: absolute; right: -10px; top: -10px; width: 140px; height: 140px; background-image: radial-gradient(rgba(250, 248, 245, .22) 1px, transparent 1px); background-size: 18px 18px; }
+  .offer__eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .offer--brun .offer__eyebrow { color: var(--on-brun-eyebrow); }
+  .offer__prices { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .offer__price { display: flex; flex-direction: column; }
+  .offer__amount { font-family: var(--font-display); font-size: 84px; line-height: .95; }
+  .offer__amount--small { font-size: 44px; line-height: 1; }
+  .offer__unit { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .offer--brun .offer__unit { color: var(--on-brun-eyebrow); }
+  .offer__list { display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 22px; }
+  .offer--brun .offer__list { color: var(--on-brun-2); border-top-color: rgba(250, 248, 245, .2); }
+  .offer__cta { margin-top: auto; padding: 16px 28px; }
+  .offer__cta--dark { padding: 15px 28px; }
+  .offer__cta--dark:hover { background: var(--ink); color: var(--on-brun); }
+  .offers__note { text-align: center; font-size: 13px; color: var(--muted); margin: 28px auto 0; max-width: 52ch; line-height: 1.6; }
+
+  .waitlist__inner { max-width: 640px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .waitlist__eyebrow, .waitlist__title, .waitlist__text, .waitlist__note, .waitlist__done { margin: 0; }
+  .waitlist__title { font-size: clamp(34px, 4.6vw, 64px); line-height: 1.05; }
+  .waitlist__text { font-size: 16px; line-height: 1.6; color: var(--on-brun-2); }
+  .waitlist__form { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; max-width: 520px; }
+  .waitlist__input {
+    flex: 1 1 240px; height: 54px; padding: 0 18px; font: inherit; font-size: 15px;
+    background: rgba(250, 248, 245, .08); border: 1px solid rgba(250, 248, 245, .35); color: var(--on-brun);
+    border-radius: var(--radius); outline: none;
+  }
+  .waitlist__input::placeholder { color: var(--muted); }
+  .waitlist__input:focus { border-color: var(--casque); }
+  .waitlist__input[aria-invalid="true"] { border-color: var(--error); }
+  .waitlist__btn { flex: 0 0 auto; height: 54px; padding: 0 28px; }
+  .waitlist__error { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--casque); text-align: left; }
+  .waitlist__done { font-size: 16px; color: var(--casque); font-weight: 600; }
+  .waitlist__note { font-size: 12px; color: var(--on-brun-eyebrow); line-height: 1.6; }
+</style>
+
+<script>
+  import { submitJson } from '../scripts/forms';
+
+  const form = document.getElementById('waitlist') as HTMLFormElement | null;
+  if (form) {
+    const email = form.querySelector<HTMLInputElement>('input[type="email"]')!;
+    const error = form.querySelector<HTMLElement>('.waitlist__error')!;
+    const done = document.querySelector<HTMLElement>('.waitlist__done')!;
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      error.hidden = true;
+      email.removeAttribute('aria-invalid');
+      if (!email.checkValidity()) {
+        email.setAttribute('aria-invalid', 'true');
+        error.textContent = 'Merci d’indiquer une adresse email valide.';
+        error.hidden = false;
+        return;
+      }
+      const result = await submitJson(form);
+      if (result.ok) {
+        form.hidden = true;
+        done.hidden = false;
+      } else {
+        error.textContent = result.message;
+        error.hidden = false;
+      }
+    });
+  }
+</script>

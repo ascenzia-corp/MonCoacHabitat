@@ -1,0 +1,210 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+
+const prestations = [
+  'Conseil à distance (30 min ou 1 h)',
+  'Visite conseil achat / vente (2 h, 80 €)',
+  'Visite conseil travaux à domicile (2 h, 80 €)',
+  'Coaching réalisation sur chantier (3, 6, 10 h ou plus)',
+  'Coaching personnalisé (sur devis)',
+  'Pack d’heures (10 h, 20 h, 40 h)',
+  'Je ne sais pas encore',
+];
+const budgets = ['Moins de 2 000 €', '2 000 à 5 000 €', '5 000 à 15 000 €', '15 000 à 40 000 €', 'Plus de 40 000 €'];
+---
+<Base title={`Demander une prestation, ${site.name}`} description="Décrivez votre projet de travaux, réponse sous 48 h ouvrées. Conseil, visite ou coaching sur chantier dans le Morbihan." active="demande" callBarSecondary="whatsapp">
+  <main class="demande">
+    <div class="deco-tri deco-tri--tr"></div>
+    <div class="demande__head">
+      <p class="eyebrow">Demander une prestation</p>
+      <h1 class="t-page demande__title">Décrivez votre projet, je vous réponds sous 48 h.</h1>
+    </div>
+    <div class="demande__cols">
+      <form class="form" id="request-form" method="post" action={site.forms.request || undefined} enctype="multipart/form-data" data-endpoint={site.forms.request} novalidate>
+        <label class="field">Prénom et nom
+          <input class="input" required type="text" name="nom" placeholder="Marie Le Gall" autocomplete="name" />
+          <span class="field__error" hidden>Merci d’indiquer votre nom.</span>
+        </label>
+        <label class="field">Email
+          <input class="input" required type="email" name="email" placeholder="marie@exemple.fr" autocomplete="email" />
+          <span class="field__error" hidden>Merci d’indiquer une adresse email valide.</span>
+        </label>
+        <label class="field">Téléphone
+          <input class="input" required type="tel" name="telephone" placeholder="06 00 00 00 00" autocomplete="tel" />
+          <span class="field__error" hidden>Merci d’indiquer un numéro de téléphone.</span>
+        </label>
+        <label class="field">Commune du projet
+          <input class="input" required type="text" name="commune" placeholder="Elven, Vannes, Ploërmel…" autocomplete="address-level2" />
+          <span class="field__error" hidden>Merci d’indiquer la commune du projet.</span>
+        </label>
+        <label class="field field--full">Prestation souhaitée
+          <select class="input" required name="prestation">
+            <option value="" selected disabled>Choisir une formule</option>
+            {prestations.map((p) => <option value={p}>{p}</option>)}
+          </select>
+          <span class="field__error" hidden>Merci de choisir une formule.</span>
+        </label>
+        <label class="field field--full">Description du projet
+          <textarea class="input" required rows="6" name="description" placeholder="Pièce(s) concernée(s), état actuel, ce que vous voulez faire vous-même, délai envisagé…"></textarea>
+          <span class="field__error" hidden>Quelques lignes suffisent pour démarrer.</span>
+        </label>
+        <label class="field">
+          <span>Budget indicatif <span class="field__hint">(facultatif)</span></span>
+          <select class="input" name="budget">
+            <option value="">Non défini</option>
+            {budgets.map((b) => <option value={b}>{b}</option>)}
+          </select>
+        </label>
+        <div class="field">
+          <span>Photos ou plans <span class="field__hint">(facultatif)</span></span>
+          <label class="file" for="fichiers">
+            <span class="file__text">Ajouter des fichiers</span>
+            <span class="file__hint">jpg, png, pdf · 20 Mo max</span>
+            <input id="fichiers" type="file" name="fichiers" multiple accept="image/*,.pdf" class="visually-hidden" />
+          </label>
+          <span class="field__error" hidden>Fichiers trop lourds : 20 Mo maximum au total.</span>
+        </div>
+        <label class="consent field--full">
+          <input required type="checkbox" name="rgpd" value="oui" />
+          <span>J’accepte que mes données soient utilisées pour traiter ma demande. Elles ne sont ni transmises ni conservées au-delà du suivi de mon projet. <a href="/mentions-legales#donnees">En savoir plus</a>.</span>
+        </label>
+        <span class="field__error consent__error field--full" hidden>Merci d’accepter le traitement de votre demande.</span>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
+        <input type="hidden" name="_subject" value="Nouvelle demande de prestation" />
+        <div class="form__actions field--full">
+          <button type="submit" class="btn btn--primary form__submit">Envoyer ma demande</button>
+          <span class="note">Réponse sous 48 h ouvrées.</span>
+        </div>
+        <p class="form__error field--full" role="alert" hidden></p>
+      </form>
+
+      <div class="sent card-sable" id="request-sent" hidden tabindex="-1">
+        <h2 class="t-display sent__title">Demande envoyée.</h2>
+        <p class="sent__text">Merci. Je vous rappelle ou vous écris sous 48 h ouvrées pour caler un premier échange.</p>
+        <a href="/" class="link-u">Retour à l’accueil</a>
+      </div>
+
+      <aside class="aside">
+        <div class="card-sable aside__tarifs">
+          <span class="aside__eyebrow">Tarifs</span>
+          <div class="aside__row"><span>L’heure</span><span class="aside__price">{site.rates.hour}</span></div>
+          <div class="aside__row"><span>La journée</span><span class="aside__price">{site.rates.day}</span></div>
+          <div class="aside__row aside__row--last"><span>Visite conseil 2 h</span><span class="aside__price">{site.rates.visit}</span></div>
+          <span class="aside__note">Packs d’heures dégressifs, valables 2 ans. Frais de déplacement selon distance.</span>
+        </div>
+        <div class="card-surface aside__horaires">
+          <span class="aside__eyebrow aside__eyebrow--muted">Horaires</span>
+          <p>Du lundi au samedi, 9h à 18h.<br /><span class="aside__sub">Hors vacances et jours fériés.</span></p>
+          <a href={site.phone.href} class="btn btn--dark aside__call">Appeler · {site.phone.display}</a>
+          <a href={site.whatsapp} class="btn btn--outline-dark aside__wa" rel="noopener">Écrire sur WhatsApp</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .demande { padding: clamp(120px, 15vw, 160px) var(--pad-x) clamp(80px, 10vw, 140px); position: relative; overflow: hidden; }
+  .demande__head { max-width: 1200px; margin: 0 auto 48px; }
+  .demande__title { max-width: 20ch; }
+  .demande__cols { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 72px); align-items: flex-start; }
+
+  .form { flex: 1 1 520px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 22px 20px; }
+  .form[hidden] { display: none; }
+  .field--full { grid-column: 1 / -1; }
+  .file {
+    height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px;
+    background: var(--surface); border: 1px dashed #C9B9A5; border-radius: var(--radius);
+    font-weight: 400; font-size: 14px; color: var(--muted); cursor: pointer;
+  }
+  .file:hover { border-color: var(--brun); }
+  .file:focus-within { border-color: var(--brun); }
+  .file__hint { font-size: 12px; white-space: nowrap; flex: none; }
+  .file__text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .consent { display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.55; color: var(--ink-2); font-weight: 400; }
+  .consent input { margin: 3px 0 0; width: 18px; height: 18px; accent-color: var(--brun); flex: none; }
+  .consent a { color: var(--ink); }
+  .consent__error { margin-top: -14px; }
+  .form__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 6px; }
+  .form__submit { padding: 17px 32px; }
+  .form__submit:disabled { opacity: .6; cursor: wait; }
+  .form__error { margin: 0; font-size: 14px; color: var(--error); line-height: 1.5; }
+
+  .sent { --cut: 56px; flex: 1 1 520px; min-width: 0; padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 64px); outline: none; }
+  .sent[hidden] { display: none; }
+  .sent__title { font-size: clamp(32px, 4vw, 52px); line-height: 1.05; margin-bottom: 16px; }
+  .sent__text { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--ink-2); }
+
+  .aside { flex: 0 1 340px; min-width: min(100%, 280px); display: flex; flex-direction: column; gap: 20px; }
+  .aside__tarifs { --cut: 40px; padding: 40px 28px 30px; gap: 18px; }
+  .aside__eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted-dark); }
+  .aside__eyebrow--muted { color: var(--muted); }
+  .aside__row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(42, 34, 28, .2); padding-bottom: 12px; font-size: 14px; }
+  .aside__row--last { border-bottom: 0; padding-bottom: 0; }
+  .aside__price { font-family: var(--font-display); font-size: 34px; line-height: 1; }
+  .aside__note { font-size: 12.5px; color: var(--muted-dark); line-height: 1.5; }
+  .aside__horaires { padding: 28px; gap: 14px; }
+  .aside__horaires p { margin: 0; font-size: 15px; line-height: 1.6; }
+  .aside__sub { color: var(--muted); font-size: 13.5px; }
+  .aside__call { padding: 15px; margin-top: 6px; }
+  .aside__wa { padding: 14px; }
+</style>
+
+<script>
+  import { submitJson } from '../scripts/forms';
+
+  const MAX_BYTES = 20 * 1024 * 1024;
+  const form = document.getElementById('request-form') as HTMLFormElement | null;
+  const sent = document.getElementById('request-sent') as HTMLElement | null;
+
+  if (form && sent) {
+    const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]')!;
+    const fileText = form.querySelector<HTMLElement>('.file__text')!;
+    const fileError = fileInput.closest('.field')!.querySelector<HTMLElement>('.field__error')!;
+    const globalError = form.querySelector<HTMLElement>('.form__error')!;
+
+    fileInput.addEventListener('change', () => {
+      const files = Array.from(fileInput.files ?? []);
+      const total = files.reduce((n, f) => n + f.size, 0);
+      fileText.textContent = files.length ? files.map((f) => f.name).join(', ') : 'Ajouter des fichiers';
+      fileError.hidden = total <= MAX_BYTES;
+    });
+
+    const validate = (): boolean => {
+      let ok = true;
+      form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[required]').forEach((el) => {
+        const valid = el.checkValidity();
+        const holder = el.closest('.field') ?? el.closest('.consent');
+        const error = el.type === 'checkbox'
+          ? form.querySelector<HTMLElement>('.consent__error')
+          : holder?.querySelector<HTMLElement>('.field__error');
+        if (el.type !== 'checkbox') el.setAttribute('aria-invalid', String(!valid));
+        if (error) error.hidden = valid;
+        if (!valid) ok = false;
+      });
+      const total = Array.from(fileInput.files ?? []).reduce((n, f) => n + f.size, 0);
+      if (total > MAX_BYTES) { fileError.hidden = false; ok = false; }
+      return ok;
+    };
+
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      globalError.hidden = true;
+      if (!validate()) {
+        form.querySelector<HTMLElement>('[aria-invalid="true"], .field__error:not([hidden])')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+      const result = await submitJson(form);
+      if (result.ok) {
+        form.hidden = true;
+        sent.hidden = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        sent.focus({ preventScroll: true });
+      } else {
+        globalError.textContent = result.message;
+        globalError.hidden = false;
+      }
+    });
+  }
+</script>

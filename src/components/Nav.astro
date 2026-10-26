@@ -1,0 +1,101 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  active?: 'prestations' | 'academie' | 'demande';
+}
+const { active } = Astro.props;
+const links = [
+  { href: '/prestations', label: 'Prestations', key: 'prestations' },
+  { href: '/prestations#tarifs', label: 'Tarifs', key: 'tarifs' },
+  { href: '/academie', label: 'Académie', key: 'academie' },
+  { href: '/#apropos', label: 'À propos', key: 'apropos' },
+  { href: '/#contact', label: 'Contact', key: 'contact' },
+];
+---
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <a href="/" class="nav__brand" aria-label={`${site.name}, accueil`}>
+    <img src="/assets/casque.png" alt="" width="30" height="27" />
+    <img src="/assets/logo.png" alt={site.name} width="76" height="38" />
+  </a>
+  <div class="nav__links">
+    {links.map((l) => (
+      <a href={l.href} aria-current={l.key === active ? 'page' : undefined}>{l.label}</a>
+    ))}
+  </div>
+  <a href="/demande" class="btn btn--primary btn--nav nav__cta">Demander une prestation</a>
+  <button class="nav__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+    <span></span>
+  </button>
+</nav>
+<div class="menu" id="menu" hidden>
+  <div class="menu__links">
+    {links.map((l) => (
+      <a href={l.href} aria-current={l.key === active ? 'page' : undefined}>{l.label}</a>
+    ))}
+  </div>
+  {active !== 'demande' && (
+    <a href="/demande" class="btn btn--primary menu__cta">Demander une prestation</a>
+  )}
+</div>
+
+<style>
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 0 clamp(20px, 4vw, 56px); height: var(--nav-h);
+    background: rgba(250, 248, 245, .72);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: background .4s, border-color .4s;
+  }
+  .nav.is-scrolled { background: rgba(250, 248, 245, .9); border-color: var(--line-2); }
+  .nav__brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav__brand img:first-child { width: 30px; height: auto; }
+  .nav__brand img:last-child { height: 38px; width: auto; }
+  .nav__links { display: flex; align-items: center; gap: 36px; font-size: 14px; font-weight: 500; margin-left: auto; }
+  .nav__links a { text-decoration: none; }
+  .nav__links a[aria-current="page"] { border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+  .nav__burger {
+    display: none; background: none; border: 1px solid var(--sable); border-radius: var(--radius);
+    width: 44px; height: 44px; place-items: center; cursor: pointer; padding: 0;
+  }
+  .nav__burger span { display: block; width: 18px; height: 1.5px; background: var(--ink); box-shadow: 0 -6px 0 var(--ink), 0 6px 0 var(--ink); }
+  .menu {
+    position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 49;
+    background: var(--bg); border-bottom: 1px solid var(--line-2);
+    padding: 16px 24px 28px; display: flex; flex-direction: column; gap: 4px;
+    font-size: 17px; font-weight: 500;
+  }
+  .menu[hidden] { display: none; }
+  .menu__links { display: flex; flex-direction: column; gap: 4px; }
+  .menu__links a { text-decoration: none; padding: 14px 0; border-bottom: 1px solid #EFE8DF; }
+  .menu__links a:last-child { border-bottom: 0; }
+  .menu__cta { margin-top: 12px; padding: 16px 24px; }
+  @media (max-width: 759px) {
+    .nav__links, .nav__cta { display: none; }
+    .nav__burger { display: grid; }
+  }
+  @media (min-width: 760px) {
+    .menu { display: none !important; }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('nav');
+  const burger = nav?.querySelector<HTMLButtonElement>('.nav__burger');
+  const menu = document.getElementById('menu');
+
+  const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 30);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setOpen = (open: boolean) => {
+    if (!burger || !menu) return;
+    burger.setAttribute('aria-expanded', String(open));
+    menu.hidden = !open;
+  };
+  burger?.addEventListener('click', () => setOpen(menu?.hidden ?? true));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.matchMedia('(min-width: 760px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+</script>

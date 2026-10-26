@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+import { formules } from '../data/content';
+
+const pourQui = [
+  { titre: 'Je rénove', texte: 'Un plan d’action clair, les bons matériaux et un coach à vos côtés sur le chantier.', lien: 'Voir les formules chantier', href: '/prestations', photo: { alt: 'Mur décroûté et seau d’enduit', brief: 'mur décroûté, seau d’enduit' } },
+  { titre: 'J’achète ou je vends', texte: 'Une visite de deux heures pour mesurer le potentiel, les travaux à prévoir et leur coût.', lien: 'Voir la visite conseil', href: '/prestations', photo: { alt: 'Façade de maison bretonne en pierre', brief: 'façade bretonne en pierre' } },
+  { titre: 'J’apprends', texte: 'Les gestes du gros œuvre aux finitions, les outils en sécurité, sur place ou bientôt en ligne.', lien: 'Découvrir l’Académie', href: '/academie', photo: { alt: 'Mains qui règlent une scie circulaire', brief: 'mains réglant une scie circulaire' } },
+];
+const etapes = [
+  { num: '01', titre: 'Vous décrivez votre projet', texte: 'Par le formulaire, par téléphone ou WhatsApp. Quelques photos suffisent pour démarrer.' },
+  { num: '02', titre: 'On se parle, ou je viens', texte: 'À distance pour une question précise, sur place pour une visite ou une séance de coaching.' },
+  { num: '03', titre: 'Vous avancez avec un plan clair', texte: 'Tâches, matériaux, budget et planning : vous savez quoi faire, dans quel ordre.' },
+];
+---
+<Base title={site.title}>
+  <header class="hero on-brun">
+    <div class="deco-dots deco-dots--brun hero__dots"></div>
+    <img src="/assets/casque.png" alt="Casque de chantier Mon COACHhabitat" class="hero__casque" width="560" height="500" loading="eager" />
+    <h1 class="t-hero hero__title">Faites vos travaux vous-même, avec un pro à vos côtés.</h1>
+    <p class="lead hero__lead">Conseil, visites et coaching sur chantier dans le Morbihan. 40&nbsp;€ de l’heure.</p>
+    <div class="hero__actions">
+      <a href="/demande" class="btn btn--primary">Demander une prestation</a>
+      <a href="#formules" class="btn btn--outline-light">Découvrir les formules</a>
+    </div>
+  </header>
+
+  <section class="section pourqui">
+    <div class="deco-tri deco-tri--tl"></div>
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Pour qui</p>
+      <h2 class="t-section">Un coach, trois façons d’avancer.</h2>
+    </div>
+    <div class="pourqui__grid container" data-reveal>
+      {pourQui.map((c) => (
+        <article class="card-sable pourqui__card">
+          <Photo photo={c.photo} />
+          <div class="pourqui__body">
+            <h3 class="t-card">{c.titre}</h3>
+            <p class="body">{c.texte}</p>
+            <a href={c.href} class="link-u">{c.lien}</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="formules" class="section formules">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Les formules</p>
+      <h2 class="t-section">Du conseil au chantier, à votre rythme.</h2>
+    </div>
+    <div class="formules__grid" data-reveal>
+      {formules.map((f) => (
+        <article class="card-surface formule">
+          <Photo photo={f.photo} />
+          <div class="formule__body">
+            <h3 class="formule__title">{f.nom}</h3>
+            <p class="formule__duree">{f.duree}</p>
+            <div class="formule__price">
+              <span class="formule__prix">{f.prix}</span>
+              <span class="formule__unite">{f.unite}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="tarifs" class="tarifs">
+    <div class="price-row" data-reveal>
+      <div><span class="price-giant">{site.rates.hour}</span><span class="price-giant__unit">de l’heure</span></div>
+      <div><span class="price-giant">{site.rates.day}</span><span class="price-giant__unit">la journée</span></div>
+    </div>
+    <p class="tarifs__note" data-reveal>Packs d’heures dégressifs, valables 2 ans.</p>
+  </section>
+
+  <section class="section etapes">
+    <div class="deco-dots etapes__dots"></div>
+    <div class="section-head etapes__head" data-reveal>
+      <p class="eyebrow">Comment ça marche</p>
+      <h2 class="t-section">Trois étapes, pas plus.</h2>
+    </div>
+    <div class="etapes__grid" data-reveal>
+      {etapes.map((e) => (
+        <div class="etape">
+          <span class="etape__num">{e.num}</span>
+          <h3 class="etape__title">{e.titre}</h3>
+          <p class="etape__text">{e.texte}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="apropos" class="section section--alt zone">
+    <div class="zone__wrap">
+      <div class="zone__text" data-reveal>
+        <p class="eyebrow">Zone d’intervention</p>
+        <h2 class="t-section zone__title">Basé à Elven, au cœur du Morbihan.</h2>
+        <p class="zone__p">Visites et coaching autour de Vannes, Ploërmel et Redon. Le conseil à distance, lui, n’a pas de frontière.</p>
+        <p class="zone__note">Des frais de déplacement peuvent être demandés selon la distance.</p>
+      </div>
+      <div class="zone__map-wrap" data-reveal>
+        <div class="map" role="img" aria-label="Carte schématique : Elven au centre, Vannes, Ploërmel et Redon autour, cercles de 20 et 40 km">
+          <div class="map__ring map__ring--20"></div>
+          <div class="map__ring map__ring--40"></div>
+          <span class="map__elven"></span>
+          <span class="map__label map__label--elven">Elven</span>
+          <span class="map__dot" style="left:14.7%;top:71%"></span>
+          <span class="map__label" style="left:14.7%;top:71%;transform:translate(10px,-8px)">Vannes</span>
+          <span class="map__dot" style="left:52.6%;top:22%"></span>
+          <span class="map__label" style="left:52.6%;top:22%;transform:translate(10px,-8px)">Ploërmel</span>
+          <span class="map__dot" style="left:86%;top:73%"></span>
+          <span class="map__label" style="left:86%;top:73%;transform:translate(-100%,8px)">Redon</span>
+          <span class="map__legend">cercles ≈ 20 km et 40 km autour d’Elven</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section on-brun bandeau">
+    <div class="deco-tri deco-tri--tr deco-tri--light"></div>
+    <div class="bandeau__inner" data-reveal>
+      <p class="eyebrow">Académie</p>
+      <h2 class="t-section bandeau__title">Apprenez à distance : la chaîne YouTube et les parcours de cours arrivent.</h2>
+      <a href="/academie" class="btn btn--outline-light">Découvrir l’Académie</a>
+    </div>
+  </section>
+
+  <section id="contact" class="section appel">
+    <div class="appel__inner" data-reveal>
+      <h2 class="t-page">Parlons de votre projet.</h2>
+      <a href="/demande" class="btn btn--primary appel__cta">Demander une prestation</a>
+      <div class="appel__links">
+        <a href={site.phone.href}>Appeler · {site.phone.display}</a>
+        <a href={site.whatsapp} rel="noopener">Écrire sur WhatsApp</a>
+      </div>
+      <p class="note">Disponible 6j/7, de 9h à 18h, hors vacances et jours fériés.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 120px 24px 80px; position: relative; overflow: hidden;
+  }
+  .hero__dots { right: 0; bottom: 0; mask-image: linear-gradient(225deg, #000 30%, transparent 75%); -webkit-mask-image: linear-gradient(225deg, #000 30%, transparent 75%); }
+  .hero__casque { width: min(68vw, 360px); height: auto; margin-bottom: clamp(28px, 4vh, 48px); filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .35)); }
+  .hero__title { margin: 0 0 24px; max-width: 16ch; }
+  .hero__lead { margin: 0 0 40px; max-width: 44ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+  /* Pour qui */
+  .pourqui__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--gutter); }
+  .pourqui__body { padding: 28px 28px 32px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .pourqui__body .link-u { margin-top: auto; }
+  .body { margin: 0; }
+
+  /* Formules */
+  .formules { padding-top: clamp(60px, 8vw, 110px); }
+  .formules__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(14px, 1.6vw, 22px); max-width: 1360px; margin: 0 auto; }
+  .formule :global(.photo--ph) { padding: 12px; }
+  .formule :global(.photo__label) { font-size: 10.5px; padding: 4px 7px; }
+  .formule__body { padding: 24px 22px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .formule__title { font-weight: 600; font-size: 15px; margin: 0; line-height: 1.35; min-height: 2.7em; }
+  .formule__duree { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+  .formule__price { margin-top: auto; padding-top: 18px; display: flex; flex-direction: column; align-items: flex-start; }
+  .formule__prix { font-family: var(--font-display); font-size: 52px; line-height: 1; }
+  .formule__unite { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Tarifs */
+  .tarifs { padding: clamp(70px, 9vw, 130px) 24px; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .tarifs__note { margin: clamp(40px, 5vw, 64px) auto 0; font-size: 17px; max-width: 40ch; line-height: 1.6; }
+
+  /* Étapes */
+  .etapes__dots { right: var(--pad-x); top: clamp(60px, 8vw, 110px); }
+  .etapes__head { margin-bottom: clamp(48px, 6vw, 90px); }
+  .etapes__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(28px, 4vw, 56px); max-width: 1100px; margin: 0 auto; position: relative; }
+  .etape { border-top: 1px solid var(--ink); padding-top: 22px; }
+  .etape__num { font-family: var(--font-display); font-size: 44px; line-height: 1; display: block; margin-bottom: 14px; }
+  .etape__title { font-weight: 600; font-size: 17px; margin: 0 0 10px; }
+  .etape__text { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted-dark); text-wrap: pretty; }
+
+  /* Zone */
+  .zone { padding-top: clamp(70px, 9vw, 130px); padding-bottom: clamp(70px, 9vw, 130px); }
+  .zone__wrap { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 80px); align-items: center; max-width: 1200px; margin: 0 auto; }
+  .zone__text { flex: 1 1 320px; min-width: 0; }
+  .zone__map-wrap { flex: 1 1 360px; min-width: 0; }
+  .zone__title { margin-bottom: 22px; }
+  .zone__p { margin: 0 0 16px; font-size: 16px; line-height: 1.65; color: var(--ink-2); text-wrap: pretty; }
+  .zone__note { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .map {
+    position: relative; width: 100%; aspect-ratio: 1.17; background: var(--bg);
+    background-image: radial-gradient(#D5C9B9 1px, transparent 1px); background-size: 20px 20px;
+    border: 1px solid var(--line-2); overflow: hidden; font-size: 13px; font-weight: 500;
+  }
+  .map__ring { position: absolute; left: 32.6%; top: 58%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
+  .map__ring--20 { width: 56%; border: 1px solid #C9B9A5; }
+  .map__ring--40 { width: 112%; border: 1px dashed #D3C5B3; }
+  .map__elven { position: absolute; left: 32.6%; top: 58%; transform: translate(-50%, -50%); width: 14px; height: 14px; background: var(--casque); border-radius: 50%; box-shadow: 0 0 0 5px rgba(242, 181, 28, .25); }
+  .map__label { position: absolute; color: var(--ink-2); white-space: nowrap; }
+  .map__label--elven { left: 32.6%; top: 58%; transform: translate(14px, -8px); font-weight: 600; color: var(--ink); }
+  .map__dot { position: absolute; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--brun); border-radius: 50%; }
+  .map__legend { position: absolute; left: 12px; bottom: 10px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); font-weight: 400; }
+
+  /* Bandeau Académie */
+  .bandeau { text-align: center; }
+  .bandeau__inner { max-width: 760px; margin: 0 auto; }
+  .bandeau__title { margin-bottom: 36px; }
+
+  /* Appel final */
+  .appel { padding-top: clamp(90px, 12vw, 170px); padding-bottom: clamp(90px, 12vw, 170px); text-align: center; }
+  .appel__inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .appel__cta { padding: 17px 32px; }
+  .appel__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 36px; font-size: 15px; font-weight: 500; }
+  .appel__links a { text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+  .appel .note { margin: 0; }
+</style>

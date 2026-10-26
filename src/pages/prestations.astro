@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+import { formules, packs, familles } from '../data/content';
+---
+<Base title={`Prestations et tarifs, ${site.name}`} description="Un tarif simple, des formules claires : conseil à distance, visites conseil, coaching sur chantier, packs d'heures dégressifs. 40 € de l'heure, 310 € la journée." active="prestations">
+  <header id="tarifs" class="tarifs-head">
+    <div class="deco-tri deco-tri--tr"></div>
+    <p class="eyebrow">Prestations et tarifs</p>
+    <h1 class="t-page tarifs-head__title">Un tarif simple, des formules claires.</h1>
+    <div class="price-row">
+      <div><span class="price-giant">{site.rates.hour}</span><span class="price-giant__unit">de l’heure</span></div>
+      <div><span class="price-giant">{site.rates.day}</span><span class="price-giant__unit">la journée</span></div>
+    </div>
+    <p class="tarifs-head__note">Packs d’heures dégressifs, valables 2 ans. Frais de déplacement selon la distance.</p>
+  </header>
+
+  <section class="section detail">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Les cinq formules</p>
+      <h2 class="t-section">Choisissez votre niveau d’accompagnement.</h2>
+    </div>
+    <div class="detail__list">
+      {formules.map((f, i) => (
+        <article class:list={['detail__item', { 'detail__item--reverse': i % 2 === 1 }]} data-reveal id={f.slug}>
+          <Photo photo={f.photo} class="detail__photo" />
+          <div class="detail__text">
+            <div class="detail__price">
+              <span class="detail__prix">{f.prix}</span>
+              <span class="detail__unite">{f.uniteDetail}</span>
+            </div>
+            <h3 class="detail__title">{f.nom}</h3>
+            <p class="detail__contenu">{f.contenu}</p>
+            <dl class="detail__meta">
+              <dt>Durée</dt><dd>{f.dureeDetail}</dd>
+              <dt>Pour qui</dt><dd>{f.pourqui}</dd>
+            </dl>
+            <a href="/demande" class="link-u">Demander cette formule</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--alt packs">
+    <div class="deco-dots packs__dots"></div>
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Packs d’heures</p>
+      <h2 class="t-section packs__title">Plus d’heures, moins cher l’heure.</h2>
+      <p class="packs__sub">Valable 2 ans, prix dégressif. Séances, visites et formation au choix.</p>
+    </div>
+    <div class="packs__grid" data-reveal>
+      {packs.map((p) => (
+        <article class:list={['pack', { 'pack--brun': p.highlight }]}>
+          <span class="pack__eyebrow">{p.highlight ? 'Pack · le plus choisi' : 'Pack'}</span>
+          <span class="pack__heures">{p.heures}</span>
+          <span class="pack__prix">{p.prix ?? '— €'}</span>
+          <span class="pack__ph">{p.prixHeure ? `soit ${p.prixHeure} l’heure` : 'soit — € l’heure · prix à confirmer'}</span>
+          <span class="pack__desc">{p.description}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="liste">
+    <div class="section-head liste__head" data-reveal>
+      <p class="eyebrow">Toutes les prestations</p>
+      <h2 class="t-section">Trois familles, un seul interlocuteur.</h2>
+    </div>
+    {familles.map((fam) => (
+      <div class="famille" data-reveal>
+        <div class:list={['famille__banner', { 'famille__banner--ph': !fam.photo.src }]}>
+          {fam.photo.src && <img src={fam.photo.src} alt={fam.photo.alt} loading="lazy" />}
+          <h3 class="famille__title">{fam.nom}</h3>
+          {!fam.photo.src && <span class="photo__label">photo bandeau · {fam.photo.brief}</span>}
+        </div>
+        <ul class="famille__items">
+          {fam.items.map((it) => (
+            <li class="check"><span class="check__icon" aria-hidden="true"></span><span>{it}</span></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="surmesure-wrap">
+    <div class="surmesure card-sable" data-reveal>
+      <div class="surmesure__text">
+        <h2 class="t-display surmesure__title">L’offre sur mesure</h2>
+        <p>Contactez-nous pour concevoir votre prestation sur mesure. Nous nous adaptons à votre projet et à vos contraintes de temps et budgétaires.</p>
+      </div>
+      <div class="surmesure__grid">
+        {['Volume d’heures', 'Fréquence', 'Contenu', 'Modalités'].map((label, i) => (
+          <div class="surmesure__cell"><span class="surmesure__num">0{i + 1}</span><span class="surmesure__label">{label}</span></div>
+        ))}
+        <a href="/demande" class="btn btn--primary surmesure__cta">Décrire mon projet</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="conditions-wrap">
+    <div class="conditions">
+      <p class="conditions__title">Conditions</p>
+      <p>Tarif horaire 40&nbsp;€, tarif journalier 310&nbsp;€. Les packs d’heures sont valables 2 ans à compter de la date d’achat et utilisables à la carte : durée des séances, formation et/ou visite-conseil, projets de rénovation au choix. Prix dégressifs selon le volume.</p>
+      <p>Des frais de déplacement supplémentaires peuvent être demandés selon la distance. Location de matériel : voir modalités.</p>
+      <p>Mon COACHhabitat conseille et accompagne ; la réalisation des travaux reste sous la responsabilité du particulier. Disponibilité 6j/7 de 9h à 18h, hors vacances et jours fériés.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tarifs-head { padding: clamp(150px, 20vw, 230px) 24px clamp(70px, 9vw, 120px); text-align: center; position: relative; overflow: hidden; }
+  .tarifs-head__title { margin: 0 auto var(--head-gap); max-width: 18ch; }
+  .tarifs-head__note { margin: clamp(40px, 5vw, 64px) auto 0; font-size: 17px; max-width: 44ch; line-height: 1.6; text-wrap: pretty; }
+
+  .detail { padding-top: clamp(60px, 8vw, 110px); padding-bottom: clamp(60px, 8vw, 110px); border-top: 1px solid var(--line); }
+  .detail__list { display: flex; flex-direction: column; gap: clamp(40px, 6vw, 90px); max-width: 1200px; margin: 0 auto; }
+  .detail__item { display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px); align-items: center; scroll-margin-top: 90px; }
+  .detail__item--reverse { flex-direction: row-reverse; }
+  .detail__item :global(.detail__photo) { flex: 1 1 360px; min-width: 0; }
+  .detail__text { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .detail__price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .detail__prix { font-family: var(--font-display); font-size: 60px; line-height: 1; }
+  .detail__unite { font-size: 13px; color: var(--muted); }
+  .detail__title { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 2.6vw, 38px); margin: 0; line-height: 1.1; }
+  .detail__contenu { margin: 0; font-size: 15.5px; line-height: 1.65; color: var(--ink-2); text-wrap: pretty; }
+  .detail__meta { display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 14px; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 16px; margin: 0; }
+  .detail__meta dt { color: var(--muted); }
+  .detail__meta dd { margin: 0; }
+
+  .packs__dots { left: var(--pad-x); bottom: 40px; width: 200px; height: 200px; }
+  .packs__title { margin-bottom: 18px; }
+  .packs__sub { margin: 0; font-size: 16px; color: var(--ink-2); line-height: 1.6; }
+  .packs__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--gutter); max-width: 1100px; margin: 0 auto; position: relative; }
+  .pack {
+    --cut: 48px; background: var(--sable); clip-path: polygon(0 var(--cut), var(--cut) 0, 100% 0, 100% 100%, 0 100%);
+    padding: 40px 32px 36px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .pack__eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted-dark); }
+  .pack__heures { font-family: var(--font-display); font-size: 84px; line-height: .95; }
+  .pack__prix { font-family: var(--font-display); font-size: 34px; line-height: 1; margin-top: 18px; color: var(--brun); }
+  .pack__ph { font-size: 13px; color: var(--muted-dark); }
+  .pack__desc { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin-top: 18px; border-top: 1px solid rgba(42, 34, 28, .2); padding-top: 16px; }
+  .pack--brun { background: var(--brun); color: var(--on-brun); }
+  .pack--brun .pack__eyebrow, .pack--brun .pack__ph { color: var(--on-brun-eyebrow); }
+  .pack--brun .pack__prix { color: var(--casque); }
+  .pack--brun .pack__desc { color: var(--on-brun-2); border-top-color: rgba(250, 248, 245, .2); }
+
+  .liste { padding: var(--pad-y) 0 clamp(40px, 5vw, 60px); }
+  .liste__head { padding: 0 24px; }
+  .famille { margin-bottom: clamp(60px, 8vw, 110px); }
+  .famille__banner {
+    position: relative; width: 100%; height: clamp(220px, 32vw, 460px); overflow: hidden;
+    display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    padding: clamp(16px, 3vw, 40px) var(--pad-x);
+  }
+  .famille__banner--ph { background: repeating-linear-gradient(135deg, #EDE4D8 0 16px, #E5DACB 16px 32px); }
+  .famille__banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .famille__title { position: relative; font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 4.6vw, 66px); line-height: 1; margin: 0; color: var(--ink); }
+  .famille__banner img + .famille__title { color: var(--on-brun); text-shadow: 0 2px 24px rgba(0, 0, 0, .45); }
+  .famille__banner .photo__label { position: relative; font-family: var(--font-mono); font-size: 11px; color: var(--muted-dark); background: rgba(250, 248, 245, .85); padding: 5px 8px; }
+  .famille__items {
+    list-style: none; margin: 0 auto; max-width: 1200px; padding: clamp(32px, 4vw, 56px) var(--pad-x) 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px 40px;
+  }
+
+  .surmesure-wrap { padding: 0 var(--pad-x) var(--pad-y); }
+  .surmesure {
+    --cut: 72px; max-width: 1200px; margin: 0 auto; flex-direction: row;
+    padding: clamp(40px, 6vw, 80px) clamp(28px, 6vw, 96px);
+    display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 80px); align-items: flex-start;
+  }
+  .surmesure__text { flex: 1 1 320px; min-width: 0; }
+  .surmesure__title { font-size: clamp(36px, 4.6vw, 64px); line-height: 1.05; margin-bottom: 20px; }
+  .surmesure__text p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-2); text-wrap: pretty; }
+  .surmesure__grid { flex: 1 1 280px; min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+  .surmesure__cell { border-top: 1px solid rgba(42, 34, 28, .3); padding-top: 12px; }
+  .surmesure__num { display: block; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted-dark); margin-bottom: 6px; }
+  .surmesure__label { font-weight: 600; font-size: 15px; }
+  .surmesure__cta { grid-column: 1 / -1; justify-self: start; margin-top: 8px; padding: 16px 28px; }
+
+  .conditions-wrap { padding: 0 var(--pad-x) clamp(80px, 11vw, 140px); }
+  .conditions { max-width: 800px; margin: 0 auto; font-size: 13.5px; line-height: 1.75; color: var(--muted); border-top: 1px solid var(--line); padding-top: 32px; }
+  .conditions p { margin: 0 0 8px; }
+  .conditions p:last-child { margin: 0; }
+  .conditions__title { color: var(--ink); font-weight: 600; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 10px !important; }
+</style>

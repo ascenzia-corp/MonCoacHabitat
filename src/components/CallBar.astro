@@ -1,0 +1,29 @@
+---
+/* Mobile-only fixed bar: call + request (or WhatsApp on the request page). */
+import { site } from '../data/site';
+
+interface Props {
+  secondary?: 'demande' | 'whatsapp';
+}
+const { secondary = 'demande' } = Astro.props;
+---
+<div class="callbar">
+  <a href={site.phone.href} class="btn btn--primary">Appeler</a>
+  {secondary === 'whatsapp' ? (
+    <a href={site.whatsapp} class="btn btn--outline-dark" rel="noopener">WhatsApp</a>
+  ) : (
+    <a href="/demande" class="btn btn--outline-dark">Demander</a>
+  )}
+</div>
+
+<style>
+  .callbar {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(250, 248, 245, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line-2); gap: 10px;
+  }
+  .callbar .btn { flex: 1; padding: 15px; }
+  .callbar .btn--outline-dark { padding: 14px; }
+  @media (max-width: 759px) { .callbar { display: flex; } }
+</style>

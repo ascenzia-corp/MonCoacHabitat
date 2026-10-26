@@ -1,0 +1,54 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  /** Thin light rule on top when the footer follows a brown section. */
+  rule?: boolean;
+}
+const { rule = false } = Astro.props;
+---
+<footer class:list={['footer', { 'footer--rule': rule }]}>
+  <div class="footer__grid">
+    <div class="footer__col footer__col--brand">
+      <div class="footer__brand">
+        <img src="/assets/casque.png" alt="" width="34" height="30" />
+        <span>{site.name}</span>
+      </div>
+      <p>{site.address.line1}, {site.address.line2}<br />Siret {site.siret}</p>
+    </div>
+    <div class="footer__col">
+      <p class="footer__title">Disponibilité</p>
+      <p>6j/7 de 9h à 18h,<br />hors vacances et jours fériés.</p>
+    </div>
+    <div class="footer__col footer__links">
+      <a href="/prestations">Prestations et tarifs</a>
+      <a href="/academie">Académie</a>
+      <a href={site.youtube.url} rel="noopener">Chaîne YouTube</a>
+      <a href="/mentions-legales">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--brun); color: var(--on-brun-3);
+    padding: clamp(56px, 7vw, 90px) var(--pad-x) clamp(40px, 5vw, 60px);
+    font-size: 13.5px; line-height: 1.7;
+  }
+  .footer--rule { border-top: 1px solid rgba(250, 248, 245, .12); }
+  .footer__grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 36px; max-width: 1240px; margin: 0 auto; }
+  .footer__col { flex: 1 1 200px; }
+  .footer__col--brand { flex-basis: 260px; }
+  .footer__col:nth-child(2) { flex-basis: 220px; }
+  .footer p { margin: 0; }
+  .footer__brand { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .footer__brand img { width: 34px; height: auto; }
+  .footer__brand span { font-family: var(--font-display); font-size: 26px; color: var(--on-brun); line-height: 1.2; }
+  .footer__title { color: var(--on-brun); font-weight: 600; margin-bottom: 6px !important; }
+  .footer__links { display: flex; flex-direction: column; gap: 6px; }
+  .footer__links a { color: var(--on-brun-3); text-decoration: none; }
+  .footer__links a:hover { color: var(--on-brun); }
+  @media (max-width: 759px) {
+    .footer { padding-bottom: 120px; }
+  }
+</style>
