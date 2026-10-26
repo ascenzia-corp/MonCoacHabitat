@@ -1,6 +1,6 @@
 ---
-/* A photo slot: renders the real <img> when `photo.src` exists, otherwise the
-   striped placeholder with its framing brief. No placeholder may ship. */
+/* A photo slot. Images are optimized to WebP with a responsive srcset. */
+import { Image } from 'astro:assets';
 import type { Photo } from '../data/content';
 
 interface Props {
@@ -11,12 +11,22 @@ interface Props {
   /** Prefix on the placeholder label, e.g. "photo 4:3". */
   kind?: string;
   loading?: 'lazy' | 'eager';
+  widths?: number[];
+  sizes?: string;
 }
-const { photo, ratio = '4 / 3', class: className = '', kind = 'photo 4:3', loading = 'lazy' } = Astro.props;
+const {
+  photo,
+  ratio = '4 / 3',
+  class: className = '',
+  kind = 'photo 4:3',
+  loading = 'lazy',
+  widths = [480, 768, 1152],
+  sizes = '(min-width: 900px) 40vw, 100vw',
+} = Astro.props;
 ---
 {photo.src ? (
   <div class:list={['photo', className]} style={`aspect-ratio:${ratio}`}>
-    <img src={photo.src} alt={photo.alt} loading={loading} />
+    <Image src={photo.src} alt={photo.alt} widths={widths} sizes={sizes} format="webp" loading={loading} />
     <slot />
   </div>
 ) : (

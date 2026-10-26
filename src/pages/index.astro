@@ -2,16 +2,16 @@
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
-import { formules } from '../data/content';
+import { formules, murDecroute, facadeBretonne, scieCirculaire } from '../data/content';
 
 const pourQui = [
-  { titre: 'Je rénove', texte: 'Un plan d’action clair, les bons matériaux et un coach à vos côtés sur le chantier.', lien: 'Voir les formules chantier', href: '/prestations', photo: { alt: 'Mur décroûté et seau d’enduit', brief: 'mur décroûté, seau d’enduit' } },
-  { titre: 'J’achète ou je vends', texte: 'Une visite de deux heures pour mesurer le potentiel, les travaux à prévoir et leur coût.', lien: 'Voir la visite conseil', href: '/prestations', photo: { alt: 'Façade de maison bretonne en pierre', brief: 'façade bretonne en pierre' } },
-  { titre: 'J’apprends', texte: 'Les gestes du gros œuvre aux finitions, les outils en sécurité, sur place ou bientôt en ligne.', lien: 'Découvrir l’Académie', href: '/academie', photo: { alt: 'Mains qui règlent une scie circulaire', brief: 'mains réglant une scie circulaire' } },
+  { titre: 'Je rénove', texte: 'Un plan d’action clair, les bons matériaux et un coach à vos côtés sur le chantier.', lien: 'Voir les formules chantier', href: '/prestations', photo: { src: murDecroute, alt: 'Mur intérieur décroûté jusqu’à la pierre, seau d’enduit et truelle au sol', brief: 'mur décroûté, seau d’enduit' } },
+  { titre: 'J’achète ou je vends', texte: 'Une visite de deux heures pour mesurer le potentiel, les travaux à prévoir et leur coût.', lien: 'Voir la visite conseil', href: '/prestations', photo: { src: facadeBretonne, alt: 'Façade d’une maison bretonne en pierre, sous un ciel couvert', brief: 'façade bretonne en pierre' } },
+  { titre: 'J’apprends', texte: 'Les gestes du gros œuvre aux finitions, les outils en sécurité, sur place et bientôt dans les parcours en ligne.', lien: 'Découvrir l’Académie', href: '/academie', photo: { src: scieCirculaire, alt: 'Mains qui règlent la profondeur d’une scie circulaire sur un établi', brief: 'mains réglant une scie circulaire' } },
 ];
 const etapes = [
   { num: '01', titre: 'Vous décrivez votre projet', texte: 'Par le formulaire, par téléphone ou WhatsApp. Quelques photos suffisent pour démarrer.' },
-  { num: '02', titre: 'On se parle, ou je viens', texte: 'À distance pour une question précise, sur place pour une visite ou une séance de coaching.' },
+  { num: '02', titre: 'Je vous réponds, ou je viens', texte: 'À distance pour une question précise, sur place pour une visite ou une séance de coaching.' },
   { num: '03', titre: 'Vous avancez avec un plan clair', texte: 'Tâches, matériaux, budget et planning : vous savez quoi faire, dans quel ordre.' },
 ];
 ---
@@ -36,7 +36,7 @@ const etapes = [
     <div class="pourqui__grid container" data-reveal>
       {pourQui.map((c) => (
         <article class="card-sable pourqui__card">
-          <Photo photo={c.photo} />
+          <Photo photo={c.photo} sizes="(min-width: 1000px) 30vw, (min-width: 700px) 45vw, 100vw" />
           <div class="pourqui__body">
             <h3 class="t-card">{c.titre}</h3>
             <p class="body">{c.texte}</p>
@@ -55,7 +55,7 @@ const etapes = [
     <div class="formules__grid" data-reveal>
       {formules.map((f) => (
         <article class="card-surface formule">
-          <Photo photo={f.photo} />
+          <Photo photo={f.photo} sizes="(min-width: 1100px) 18vw, (min-width: 700px) 30vw, 100vw" />
           <div class="formule__body">
             <h3 class="formule__title">{f.nom}</h3>
             <p class="formule__duree">{f.duree}</p>
@@ -124,7 +124,7 @@ const etapes = [
     <div class="deco-tri deco-tri--tr deco-tri--light"></div>
     <div class="bandeau__inner" data-reveal>
       <p class="eyebrow">Académie</p>
-      <h2 class="t-section bandeau__title">Apprenez à distance : la chaîne YouTube et les parcours de cours arrivent.</h2>
+      <h2 class="t-section bandeau__title">Apprenez à distance : des tutos sur YouTube, et bientôt les parcours de l’Académie.</h2>
       <a href="/academie" class="btn btn--outline-light">Découvrir l’Académie</a>
     </div>
   </section>

@@ -52,18 +52,23 @@ fichiers demande un plan payant. Sans pièce jointe, l'envoi est en JSON.
 
 ## Avant la mise en ligne
 
-Placeholders à remplacer (tous marqués `TODO placeholder` dans `src/data/`) :
+Déjà renseigné dans le code, à confirmer par le client :
 
-- numéro de téléphone et lien WhatsApp (`site.ts`) ;
-- nom et URL de la chaîne YouTube, titres, durées et URL des vidéos ;
-- prix des packs 10 h / 20 h / 40 h et prix mensuel / annuel de l'Académie
-  (ce dernier en dur dans `academie.astro`) ;
-- nombre de vidéos par parcours ;
-- les 11 photos (brief de cadrage dans `Composants.dc.html` du handoff) :
-  renseigner `photo.src` dans `content.ts` et `index.astro`, les placeholders
-  rayés disparaissent automatiquement ;
-- domaine de production dans `astro.config.mjs` (`site`) ;
-- page Mentions légales : gérant, hébergeur, email de contact.
+- téléphone `+33 6 61 45 29 50` et WhatsApp `https://wa.me/33661452950` ;
+- gérant Etienne Blanco, hébergeur Vercel Inc. (mentions légales) ;
+- pas d'adresse email de contact : les demandes passent par `/demande` ;
+- photos de démonstration générées (voir `CREDITS.md`), pas de visage du client ;
+- chaîne YouTube de démonstration : Système D. Pour la remplacer, modifier
+  uniquement `site.youtube` dans `src/data/site.ts` ;
+- domaine canonique `https://www.moncoachhabitat.fr` (`astro.config.mjs`).
+
+Encore à décider, sans inventer de donnée :
+
+- prix des packs 10 h / 20 h / 40 h et tarif de l'Académie (affichés
+  « Tarif sur demande ») ;
+- endpoints des formulaires (`PUBLIC_FORM_ENDPOINT`, `PUBLIC_WAITLIST_ENDPOINT`) ;
+- confirmation du domaine canonique (avec ou sans `www`, et qu'il est bien
+  celui de production).
 
 ## Déploiement
 

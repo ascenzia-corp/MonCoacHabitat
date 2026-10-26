@@ -4,6 +4,8 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CallBar from '../components/CallBar.astro';
 import { site } from '../data/site';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 
 interface Props {
   title: string;
@@ -11,9 +13,13 @@ interface Props {
   active?: 'prestations' | 'academie' | 'demande';
   footerRule?: boolean;
   callBarSecondary?: 'demande' | 'whatsapp';
+  /** Optional social image. Defaults to the logo. */
+  image?: ImageMetadata;
 }
-const { title, description = site.description, active, footerRule = false, callBarSecondary = 'demande' } = Astro.props;
+const { title, description = site.description, active, footerRule = false, callBarSecondary = 'demande', image } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = image ? await getImage({ src: image, width: 1200, height: 630, format: 'webp' }) : null;
+const ogImage = og ? new URL(og.src, Astro.site) : new URL('/assets/logo.png', Astro.site);
 ---
 <!doctype html>
 <html lang="fr">
@@ -29,12 +35,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/assets/logo.png', Astro.site)} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="fr_FR" />
     <meta name="theme-color" content="#3B3129" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <Nav active={active} />

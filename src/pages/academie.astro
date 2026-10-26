@@ -1,18 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
+import { Image } from 'astro:assets';
 import { site } from '../data/site';
 import { videos, parcours } from '../data/content';
+import academiePrincipale from '../assets/photos/academie-principale.jpg';
 ---
-<Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHhabitat." active="academie" footerRule>
+<Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHhabitat." active="academie" footerRule image={academiePrincipale}>
   <header class="ahero on-brun">
     <div class="deco-dots deco-dots--brun ahero__dots"></div>
     <img src="/assets/casque.png" alt="" class="ahero__casque" width="560" height="500" loading="eager" />
-    <p class="eyebrow">Académie · chaîne YouTube «&nbsp;{site.youtube.name}&nbsp;»</p>
+    <p class="eyebrow">Académie · vidéos YouTube «&nbsp;{site.youtube.name}&nbsp;»</p>
     <h1 class="t-hero ahero__title">Les gestes du chantier, filmés de près.</h1>
     <p class="lead ahero__lead">Pas de visage, pas de blabla : un casque, deux mains et la technique expliquée étape par étape. Gratuit sur YouTube, approfondi dans les parcours de l’Académie.</p>
     <a href="#liste" class="btn btn--primary">Rejoindre la liste d’attente</a>
   </header>
+
+  <figure class="amain">
+    <Image
+      src={academiePrincipale}
+      alt="Casque jaune, mètre et plaque de plâtre sur un chantier de rénovation, sans visage"
+      widths={[768, 1280]}
+      sizes="100vw"
+      format="webp"
+      loading="eager"
+    />
+  </figure>
 
   <section class="section videos">
     <div class="deco-tri deco-tri--tl"></div>
@@ -23,10 +36,10 @@ import { videos, parcours } from '../data/content';
     <div class="videos__grid container" data-reveal>
       {videos.map((v) => (
         <article class="video">
-          <a href={v.url ?? site.youtube.url} class="video__thumb-link" rel="noopener" aria-label={`Regarder : ${v.titre}`}>
-            <Photo photo={v.photo} ratio="16 / 9" kind="vignette" class="video__thumb">
+          <a href={v.url} class="video__thumb-link" target="_blank" rel="noopener noreferrer" aria-label={`Regarder : ${v.titre}`}>
+            <Photo photo={v.photo} ratio="16 / 9" kind="vignette" class="video__thumb" sizes="(min-width: 1000px) 30vw, (min-width: 700px) 45vw, 100vw">
               <span class="video__play" aria-hidden="true"><span></span></span>
-              <span class="video__duration">{v.duree}</span>
+              {v.duree && <span class="video__duration">{v.duree}</span>}
             </Photo>
           </a>
           <h3 class="video__title">{v.titre}</h3>
@@ -34,6 +47,7 @@ import { videos, parcours } from '../data/content';
         </article>
       ))}
     </div>
+    <p class="videos__note">En attendant la chaîne Mon COACHhabitat, ces vidéos sont celles de {site.youtube.name}, une chaîne publique de bricolage et de rénovation. Les parcours de cours, eux, ne sont pas encore ouverts.</p>
   </section>
 
   <section class="section section--alt tracks">
@@ -67,14 +81,14 @@ import { videos, parcours } from '../data/content';
           <span>La newsletter du chantier</span>
           <span>Un cours d’essai complet</span>
         </div>
-        <a href={site.youtube.url} class="btn btn--outline-dark offer__cta offer__cta--dark" rel="noopener">Voir la chaîne</a>
+        <a href={site.youtube.url} class="btn btn--outline-dark offer__cta offer__cta--dark" target="_blank" rel="noopener noreferrer">Voir la chaîne</a>
       </article>
       <article class="offer offer--brun on-brun">
         <div class="offer__dots"></div>
         <span class="offer__eyebrow">Académie</span>
-        <div class="offer__prices">
-          <div class="offer__price"><span class="offer__amount">—&nbsp;€</span><span class="offer__unit">par mois</span></div>
-          <div class="offer__price"><span class="offer__amount offer__amount--small">—&nbsp;€</span><span class="offer__unit">par an</span></div>
+        <div class="offer__price">
+          <span class="offer__amount offer__amount--text">Tarif sur demande</span>
+          <span class="offer__unit">par mois ou par an</span>
         </div>
         <div class="offer__list">
           <span>Tous les parcours de cours</span>
@@ -84,15 +98,15 @@ import { videos, parcours } from '../data/content';
         <a href="#liste" class="btn btn--primary offer__cta">Être prévenu du lancement</a>
       </article>
     </div>
-    <p class="offers__note">Les cours sont hébergés sur une plateforme externe ; prix définitifs communiqués au lancement.</p>
+    <p class="offers__note">Les parcours ne sont pas encore ouverts. Les cours seront hébergés sur une plateforme externe ; le tarif, mensuel ou annuel, sera communiqué au lancement.</p>
   </section>
 
   <section id="liste" class="section on-brun waitlist">
     <div class="deco-tri deco-tri--br deco-tri--light"></div>
     <div class="waitlist__inner" data-reveal>
       <p class="eyebrow waitlist__eyebrow">Bientôt disponible</p>
-      <h2 class="t-section waitlist__title">Soyez prévenu à l’ouverture.</h2>
-      <p class="waitlist__text">Une adresse email, rien d’autre. Vous recevrez la première vidéo et le cours d’essai en avant-première.</p>
+      <h2 class="t-section waitlist__title">Soyez prévenu à l’ouverture des parcours.</h2>
+      <p class="waitlist__text">Les cours de l’Académie ne sont pas encore ouverts. Une adresse email, rien d’autre. Vous recevrez la première vidéo et le cours d’essai en avant-première.</p>
       <form class="waitlist__form" id="waitlist" method="post" action={site.forms.waitlist || undefined} data-endpoint={site.forms.waitlist} novalidate>
         <label for="waitlist-email" class="visually-hidden">Votre adresse email</label>
         <input id="waitlist-email" class="waitlist__input" type="email" name="email" required placeholder="votre@email.fr" autocomplete="email" />
@@ -113,11 +127,14 @@ import { videos, parcours } from '../data/content';
   .ahero__casque { width: min(40vw, 180px); height: auto; margin: 0 auto 28px; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .35)); }
   .ahero__title { font-size: clamp(40px, 5.6vw, 80px); margin: 0 auto 24px; max-width: 18ch; }
   .ahero__lead { margin: 0 auto 40px; max-width: 52ch; }
+  .amain { margin: 0; aspect-ratio: 16 / 9; max-height: 72vh; overflow: hidden; background: var(--brun); }
+  .amain :global(img) { width: 100%; height: 100%; object-fit: cover; }
 
   .videos__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--gutter); }
   .video { display: flex; flex-direction: column; gap: 12px; }
   .video__thumb-link { display: block; text-decoration: none; color: inherit; }
-  .video :global(.video__thumb) { align-items: flex-end; padding: 12px; }
+  .video :global(.video__thumb) { align-items: flex-end; }
+  .videos__note { max-width: 62ch; margin: clamp(28px, 4vw, 48px) auto 0; text-align: center; font-size: 14px; line-height: 1.6; color: var(--muted); }
   .video :global(.video__thumb .photo__label) { font-size: 10.5px; padding: 4px 7px; }
   .video__play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; border-radius: 50%; background: var(--brun); display: grid; place-items: center; transition: transform .2s; }
   .video__thumb-link:hover .video__play { transform: translate(-50%, -50%) scale(1.06); }
@@ -141,6 +158,7 @@ import { videos, parcours } from '../data/content';
   .offer__prices { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
   .offer__price { display: flex; flex-direction: column; }
   .offer__amount { font-family: var(--font-display); font-size: 84px; line-height: .95; }
+  .offer__amount--text { font-size: clamp(34px, 4vw, 52px); line-height: 1.05; max-width: 12ch; }
   .offer__amount--small { font-size: 44px; line-height: 1; }
   .offer__unit { font-size: 13px; color: var(--muted); margin-top: 6px; }
   .offer--brun .offer__unit { color: var(--on-brun-eyebrow); }

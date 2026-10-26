@@ -1,12 +1,31 @@
 /* Editorial content: formulas, packs, service families, Académie videos and
-   tracks. Texts are final (design handoff); photos are placeholders until the
-   real pictures are shot (Composants: "Les 11 photos à produire"). */
+   tracks. Photos are generated stand-ins (see CREDITS.md), not pictures of
+   the client. YouTube titles and links come from `site.youtube`. */
+
+import type { ImageMetadata } from 'astro';
+import { site } from './site';
+import murDecroute from '../assets/photos/mur-decroute.jpg';
+import facadeBretonne from '../assets/photos/facade-bretonne.jpg';
+import scieCirculaire from '../assets/photos/scie-circulaire.jpg';
+import telephoneChantier from '../assets/photos/telephone-chantier.jpg';
+import carnetMetre from '../assets/photos/carnet-metre.jpg';
+import pieceNiveau from '../assets/photos/piece-niveau.jpg';
+import cloisonPlaco from '../assets/photos/cloison-placo.jpg';
+import planCasque from '../assets/photos/plan-casque.jpg';
+import bandeauConseil from '../assets/photos/bandeau-conseil.jpg';
+import bandeauEtabli from '../assets/photos/bandeau-etabli.jpg';
+import bandeauThermique from '../assets/photos/bandeau-thermique.jpg';
+import videoMur from '../assets/photos/video-mur.jpg';
+import videoScie from '../assets/photos/video-scie.jpg';
+import videoThermique from '../assets/photos/video-thermique.jpg';
+import videoFacade from '../assets/photos/video-facade.jpg';
+import videoPlaco from '../assets/photos/video-placo.jpg';
+import videoPlan from '../assets/photos/video-plan.jpg';
 
 export interface Photo {
-  /** Public path of the real picture; undefined renders the striped placeholder. */
-  src?: string;
+  src: ImageMetadata;
   alt: string;
-  /** Framing brief shown on the placeholder. */
+  /** Original framing brief, kept so a future shoot can match the slot. */
   brief: string;
 }
 
@@ -33,12 +52,16 @@ export const formules: Formule[] = [
     prix: '20 €',
     unite: 'les 30 min · 40 € l’heure',
     uniteDetail: 'les 30 min · 40 € l’heure',
-    duree: '30 min ou 1 h · téléphone, visio, WhatsApp',
-    dureeDetail: '30 min ou 1 h, par téléphone, visio ou WhatsApp',
+    duree: '30 min ou 1 h · téléphone, visio, WhatsApp ou formulaire',
+    dureeDetail: '30 min ou 1 h, par téléphone, visio, WhatsApp ou formulaire',
     pourqui: 'Une question précise, un choix de matériau, un doute avant de commencer.',
     contenu:
-      'Vous décrivez la situation, envoyez quelques photos, et on tranche ensemble : faisabilité, ordre des étapes, matériaux, budget réaliste.',
-    photo: { alt: 'Mains tenant un téléphone devant un mur en chantier', brief: 'mains tenant un téléphone devant un mur en chantier' },
+      'Vous décrivez la situation, envoyez quelques photos, et je tranche avec vous : faisabilité, ordre des étapes, matériaux, budget réaliste.',
+    photo: {
+      src: telephoneChantier,
+      alt: 'Mains tenant un téléphone devant un mur en cours de rénovation',
+      brief: 'mains tenant un téléphone devant un mur en chantier',
+    },
   },
   {
     slug: 'visite-achat-vente',
@@ -51,7 +74,11 @@ export const formules: Formule[] = [
     pourqui: 'Acheteurs qui veulent mesurer les travaux, vendeurs qui veulent valoriser leur bien.',
     contenu:
       'État du bâti, travaux à prévoir et leur coût, potentiel d’aménagement, éléments à mettre en valeur, décoration et petites réparations qui changent tout.',
-    photo: { alt: 'Carnet de notes et mètre devant une façade ancienne', brief: 'carnet de notes et mètre devant une façade ancienne' },
+    photo: {
+      src: carnetMetre,
+      alt: 'Carnet de notes et mètre devant une façade en pierre',
+      brief: 'carnet de notes et mètre devant une façade ancienne',
+    },
   },
   {
     slug: 'visite-travaux',
@@ -64,20 +91,28 @@ export const formules: Formule[] = [
     pourqui: 'Vous rénovez une pièce ou une maison et voulez partir sur de bonnes bases.',
     contenu:
       'Faisabilité, optimisation de l’espace, choix des matériaux et du matériel, plan d’action et répartition des tâches, estimation du budget et du planning.',
-    photo: { alt: 'Pièce en cours de rénovation, niveau posé au sol', brief: 'pièce en cours de rénovation, niveau posé au sol' },
+    photo: {
+      src: pieceNiveau,
+      alt: 'Pièce en cours de rénovation, niveau à bulle posé au sol',
+      brief: 'pièce en cours de rénovation, niveau posé au sol',
+    },
   },
   {
     slug: 'coaching-chantier',
     nom: 'Coaching réalisation sur chantier',
     prix: '40 €',
-    unite: 'de l’heure · packs dégressifs',
-    uniteDetail: 'de l’heure · 3, 6, 10 h ou plus',
-    duree: '3, 6, 10 h ou plus',
+    unite: 'de l’heure · séances de 3 h minimum',
+    uniteDetail: 'de l’heure · séances de 3 h minimum',
+    duree: 'Séances de 3 h minimum',
     dureeDetail: 'Séances de 3 h minimum, en pack dégressif',
     pourqui: 'Vous voulez faire vous-même, avec les bons gestes et en sécurité.',
     contenu:
       'Je travaille à vos côtés : démonstration, pratique guidée, utilisation des outils en sécurité, du gros œuvre aux finitions. Vous repartez autonome sur la tâche.',
-    photo: { alt: 'Deux paires de mains sur une cloison en plaques de plâtre', brief: 'deux paires de mains sur une cloison en plaques de plâtre' },
+    photo: {
+      src: cloisonPlaco,
+      alt: 'Deux paires de mains posant une cloison en plaques de plâtre',
+      brief: 'deux paires de mains sur une cloison en plaques de plâtre',
+    },
   },
   {
     slug: 'coaching-personnalise',
@@ -89,16 +124,20 @@ export const formules: Formule[] = [
     dureeDetail: 'Volume, fréquence et contenu définis ensemble',
     pourqui: 'Projets longs, suivi de chantier complet, besoins particuliers.',
     contenu:
-      'Une offre composée pour votre projet : visites, séances sur chantier, conseil à distance, étude thermique, organisation de déménagement, selon vos contraintes de temps et de budget.',
-    photo: { alt: 'Plan dessiné sur une table, casque jaune posé dessus', brief: 'plan dessiné sur une table, casque jaune posé dessus' },
+      'Une offre composée pour votre projet : visites, séances sur chantier, conseil à distance, étude thermique, organisation de déménagement, selon vos contraintes de temps et de budget. Des partenaires peuvent être associés si le projet le demande.',
+    photo: {
+      src: planCasque,
+      alt: 'Casque de chantier jaune posé sur un plan roulé, sur une table',
+      brief: 'plan dessiné sur une table, casque jaune posé dessus',
+    },
   },
 ];
 
 export interface Pack {
   heures: string;
-  /** TODO placeholder: pack price, e.g. '360 €'. null renders the placeholder. */
+  /** null means the price is not published yet. */
   prix: string | null;
-  /** TODO placeholder: hourly rate inside the pack. */
+  /** null means the hourly rate inside the pack is not published yet. */
   prixHeure: string | null;
   description: string;
   highlight?: boolean;
@@ -119,9 +158,13 @@ export interface Famille {
 export const familles: Famille[] = [
   {
     nom: 'Conseil et projet',
-    photo: { alt: 'Plan et carnet sur une table', brief: 'plan et carnet sur une table' },
+    photo: {
+      src: bandeauConseil,
+      alt: 'Plan d’aménagement et carnet ouverts sur une table en bois',
+      brief: 'plan et carnet sur une table',
+    },
     items: [
-      'Conseil et réponses aux questions 6j/7, 9h à 18h, par téléphone, mail, visio ou WhatsApp',
+      'Conseil et réponses aux questions 6j/7, 9h à 18h, par téléphone, visio, WhatsApp ou formulaire',
       'Étude de faisabilité de votre projet, en adéquation avec vos attentes et votre budget',
       'Optimisation et organisation logique de l’espace',
       'Plans d’aménagement intérieur et extérieur',
@@ -132,7 +175,11 @@ export const familles: Famille[] = [
   },
   {
     nom: 'Chantier et apprentissage',
-    photo: { alt: 'Établi et outils, lumière naturelle', brief: 'établi et outils, lumière naturelle' },
+    photo: {
+      src: bandeauEtabli,
+      alt: 'Établi de menuisier et outils à main, en lumière naturelle',
+      brief: 'établi et outils, lumière naturelle',
+    },
     items: [
       'Plan d’action et répartition des tâches entre les intervenants',
       'Listing et choix des matériaux : qualité, longévité, nocivité, budget',
@@ -147,11 +194,15 @@ export const familles: Famille[] = [
   },
   {
     nom: 'Énergie et autonomie',
-    photo: { alt: 'Caméra thermique pointée sur un mur', brief: 'caméra thermique pointée sur un mur' },
+    photo: {
+      src: bandeauThermique,
+      alt: 'Caméra thermique posée devant un mur intérieur',
+      brief: 'caméra thermique pointée sur un mur',
+    },
     items: [
       'Économie d’énergie',
       'Étude thermique détaillée avec caméra thermique',
-      'Location de matériel (voir modalités)',
+      'Location de matériel (modalités sur demande)',
       'Accompagnement vers l’autonomie et la résilience',
       'Partage d’astuces et d’expérience',
     ],
@@ -160,34 +211,67 @@ export const familles: Famille[] = [
 
 export interface Video {
   titre: string;
+  /** Real duration, or empty when it should not be shown. */
   duree: string;
   parcours: string;
-  /** TODO placeholder: YouTube video URL. */
-  url?: string;
+  url: string;
   photo: Photo;
 }
 
-/* TODO placeholder: indicative titles, replace with the real videos. */
-export const videos: Video[] = [
-  { titre: 'Décroûter un mur sans tout casser', duree: '12:40', parcours: 'Gros œuvre aux finitions', photo: { alt: '', brief: 'mains, burin et mur décroûté' } },
-  { titre: 'Régler et tenir une scie circulaire en sécurité', duree: '9:15', parcours: 'Outillage et sécurité', photo: { alt: '', brief: 'mains sur la scie, établi' } },
-  { titre: 'Lire une caméra thermique : les 3 ponts à repérer', duree: '14:02', parcours: 'Énergie et étude thermique', photo: { alt: '', brief: 'écran de caméra thermique, mur' } },
-  { titre: 'Visiter une maison en pierre avant d’acheter', duree: '18:30', parcours: 'Acheter, vendre, aménager', photo: { alt: '', brief: 'carnet, mètre, façade' } },
-  { titre: 'Monter une cloison en plaques de plâtre', duree: '21:08', parcours: 'Gros œuvre aux finitions', photo: { alt: '', brief: 'rails, plaque, visseuse' } },
-  { titre: 'Planifier son chantier : la check-list', duree: '7:55', parcours: 'Acheter, vendre, aménager', photo: { alt: '', brief: 'plan sur table, casque jaune' } },
-];
+const videoPhotos: Record<(typeof site.youtube.videos)[number]['id'], Photo> = {
+  iWWZ2llwSrw: {
+    src: videoMur,
+    alt: 'Mains et burin sur un mur dont l’enduit a été décroûté',
+    brief: 'mains, burin et mur décroûté',
+  },
+  AOGIW2mrXDU: {
+    src: videoScie,
+    alt: 'Mains guidant une scie circulaire sur un établi',
+    brief: 'mains sur la scie, établi',
+  },
+  mFa1enWlI4U: {
+    src: videoThermique,
+    alt: 'Écran de caméra thermique montrant les écarts de température d’un mur',
+    brief: 'écran de caméra thermique, mur',
+  },
+  VOEOL2fImvg: {
+    src: videoFacade,
+    alt: 'Carnet et mètre appuyés contre une façade en pierre',
+    brief: 'carnet, mètre, façade',
+  },
+  'dWg4-W1E4dA': {
+    src: videoPlaco,
+    alt: 'Rails métalliques, plaque de plâtre et visseuse sur un chantier',
+    brief: 'rails, plaque, visseuse',
+  },
+  hmkf9Z680IY: {
+    src: videoPlan,
+    alt: 'Plan de chantier et casque jaune posés sur une table',
+    brief: 'plan sur table, casque jaune',
+  },
+};
+
+export const videos: Video[] = site.youtube.videos.map((v) => ({
+  titre: v.titre,
+  duree: v.duree,
+  parcours: v.parcours,
+  url: `https://www.youtube.com/watch?v=${v.id}`,
+  photo: videoPhotos[v.id],
+}));
 
 export interface Parcours {
   num: string;
   titre: string;
   desc: string;
-  /** TODO placeholder: number of videos, e.g. '12 vidéos · fiches PDF'. */
+  /** No video count: the tracks are not open yet. */
   meta: string;
 }
 
 export const parcours: Parcours[] = [
-  { num: '01', titre: 'Techniques du gros œuvre aux finitions', desc: 'Démolition propre, maçonnerie légère, cloisons, enduits, peinture, sols. L’ordre des étapes et les gestes qui tiennent.', meta: '— vidéos · fiches PDF' },
-  { num: '02', titre: 'Outillage et sécurité', desc: 'Choisir, régler et entretenir ses outils. Travailler sans se blesser, protéger le chantier et la maison.', meta: '— vidéos · fiches PDF' },
-  { num: '03', titre: 'Économies d’énergie et étude thermique', desc: 'Repérer les pertes à la caméra thermique, prioriser les travaux, isoler au bon endroit, viser l’autonomie.', meta: '— vidéos · fiches PDF' },
-  { num: '04', titre: 'Acheter, vendre, aménager', desc: 'Lire un bien, estimer les travaux, optimiser l’espace, mettre en valeur avant une vente, organiser un déménagement.', meta: '— vidéos · fiches PDF' },
+  { num: '01', titre: 'Techniques du gros œuvre aux finitions', desc: 'Démolition propre, maçonnerie légère, cloisons, enduits, peinture, sols. L’ordre des étapes et les gestes qui tiennent.', meta: 'Vidéos et fiches PDF à venir' },
+  { num: '02', titre: 'Outillage et sécurité', desc: 'Choisir, régler et entretenir ses outils. Travailler sans se blesser, protéger le chantier et la maison.', meta: 'Vidéos et fiches PDF à venir' },
+  { num: '03', titre: 'Économies d’énergie et étude thermique', desc: 'Repérer les pertes à la caméra thermique, prioriser les travaux, isoler au bon endroit, viser l’autonomie.', meta: 'Vidéos et fiches PDF à venir' },
+  { num: '04', titre: 'Acheter, vendre, aménager', desc: 'Lire un bien, estimer les travaux, optimiser l’espace, mettre en valeur avant une vente, organiser un déménagement.', meta: 'Vidéos et fiches PDF à venir' },
 ];
+
+export { murDecroute, facadeBretonne, scieCirculaire };
