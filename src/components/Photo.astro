@@ -1,27 +1,36 @@
 ---
-/* A photo slot: renders the real <img> when `photo.src` exists, otherwise the
-   striped placeholder with its framing brief. No placeholder may ship. */
+/* Photo réelle, exportée en WebP responsive au build. */
+import { Image } from 'astro:assets';
 import type { Photo } from '../data/content';
 
 interface Props {
   photo: Photo;
-  /** CSS aspect-ratio, e.g. "4 / 3" or "16 / 9". */
+  /** CSS aspect-ratio. Chaîne vide : le parent impose la taille (bandeau). */
   ratio?: string;
   class?: string;
-  /** Prefix on the placeholder label, e.g. "photo 4:3". */
-  kind?: string;
+  sizes?: string;
   loading?: 'lazy' | 'eager';
 }
-const { photo, ratio = '4 / 3', class: className = '', kind = 'photo 4:3', loading = 'lazy' } = Astro.props;
+const {
+  photo,
+  ratio = '4 / 3',
+  class: className = '',
+  sizes = '(min-width: 900px) 40vw, 92vw',
+  loading = 'lazy',
+} = Astro.props;
+const maxW = photo.src.width;
+const widths = [480, 768, 1200, 1600, 2000].filter((w) => w < maxW);
+if (!widths.includes(maxW)) widths.push(maxW);
 ---
-{photo.src ? (
-  <div class:list={['photo', className]} style={`aspect-ratio:${ratio}`}>
-    <img src={photo.src} alt={photo.alt} loading={loading} />
-    <slot />
-  </div>
-) : (
-  <div class:list={['photo', 'photo--ph', className]} style={`aspect-ratio:${ratio}`} role="img" aria-label={photo.alt || undefined}>
-    <span class="photo__label">{kind} · {photo.brief}</span>
-    <slot />
-  </div>
-)}
+<div class:list={['photo', className]} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+  <Image
+    src={photo.src}
+    alt={photo.alt}
+    widths={widths}
+    sizes={sizes}
+    format="webp"
+    quality={75}
+    loading={loading}
+  />
+  <slot />
+</div>

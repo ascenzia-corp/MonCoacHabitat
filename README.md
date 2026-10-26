@@ -28,7 +28,7 @@ src/
   data/content.ts     formules, packs, familles de prestations, vidéos, parcours
   styles/global.css   tokens (couleurs, typo, espacements) et composants partagés
   layouts/Base.astro  <head>, nav, pied de page, barre d'appel mobile, reveal
-  components/         Nav, Footer, CallBar, Photo (placeholder ou vraie photo)
+  components/         Nav, Footer, CallBar, Photo, Map (carte au clic)
   pages/              index, prestations, academie, demande, mentions-legales
   scripts/forms.ts    envoi JSON des formulaires, honeypot, messages d'erreur
 public/assets/        logo.png, casque.png
@@ -52,18 +52,17 @@ fichiers demande un plan payant. Sans pièce jointe, l'envoi est en JSON.
 
 ## Avant la mise en ligne
 
-Placeholders à remplacer (tous marqués `TODO placeholder` dans `src/data/`) :
+Déjà renseigné : téléphone, WhatsApp, gérant, hébergeur, photos (`CREDITS.md`),
+polices auto-hébergées, `sitemap.xml`, `robots.txt`. La chaîne YouTube de démo
+et le drapeau `interim` sont dans `site.youtube` (`src/data/site.ts`), une
+seule adresse à remplacer.
 
-- numéro de téléphone et lien WhatsApp (`site.ts`) ;
-- nom et URL de la chaîne YouTube, titres, durées et URL des vidéos ;
-- prix des packs 10 h / 20 h / 40 h et prix mensuel / annuel de l'Académie
-  (ce dernier en dur dans `academie.astro`) ;
-- nombre de vidéos par parcours ;
-- les 11 photos (brief de cadrage dans `Composants.dc.html` du handoff) :
-  renseigner `photo.src` dans `content.ts` et `index.astro`, les placeholders
-  rayés disparaissent automatiquement ;
-- domaine de production dans `astro.config.mjs` (`site`) ;
-- page Mentions légales : gérant, hébergeur, email de contact.
+Encore à confirmer avec le client :
+
+- prix des packs 10 h / 20 h / 40 h et de l’abonnement Académie (affichés
+  « Tarif sur demande », aucun montant inventé) ;
+- domaine canonique `https://www.moncoachhabitat.fr` dans `astro.config.mjs` ;
+- endpoints Formspree (`PUBLIC_FORM_ENDPOINT`, `PUBLIC_WAITLIST_ENDPOINT`).
 
 ## Déploiement
 

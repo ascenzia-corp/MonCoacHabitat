@@ -1,0 +1,56 @@
+---
+/* Google Maps sans clé API. L'iframe n'est insérée qu'après un clic,
+   pour ne pas déposer de cookies Google avant l'accord du visiteur. */
+const query = 'Le Gohélis, 56250 Elven';
+const title = 'Carte interactive : Le Gohélis, 56250 Elven';
+const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&hl=fr&z=14&output=embed`;
+---
+<div class="gmap" data-map-src={src} data-map-title={title}>
+  <div class="gmap__gate">
+    <p class="gmap__place">{query}</p>
+    <p class="gmap__hint">La carte Google Maps n’est chargée qu’après votre accord. Google peut alors déposer des cookies.</p>
+    <button type="button" class="btn btn--primary gmap__btn">Afficher la carte</button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.gmap').forEach((root) => {
+    const button = root.querySelector('button');
+    button?.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = root.dataset.mapSrc ?? '';
+      frame.title = root.dataset.mapTitle ?? 'Carte';
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.setAttribute('allowfullscreen', '');
+      frame.className = 'gmap__frame';
+      root.replaceChildren(frame);
+    });
+  });
+</script>
+
+<style>
+  .gmap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.17;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    overflow: hidden;
+  }
+  .gmap__gate {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 22px;
+    background-image: radial-gradient(#D5C9B9 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .gmap__place { margin: 0; font-weight: 600; font-size: 16px; }
+  .gmap__hint { margin: 0; max-width: 36ch; font-size: 13.5px; line-height: 1.5; color: var(--muted-dark); }
+  .gmap__btn { margin-top: 4px; }
+  .gmap :global(.gmap__frame) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>

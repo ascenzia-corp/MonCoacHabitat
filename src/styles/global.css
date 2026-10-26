@@ -1,3 +1,11 @@
+@import '@fontsource/italiana/latin-400.css';
+@import '@fontsource/montserrat/latin-400.css';
+@import '@fontsource/montserrat/latin-500.css';
+@import '@fontsource/montserrat/latin-600.css';
+@import '@fontsource/montserrat/latin-ext-400.css';
+@import '@fontsource/montserrat/latin-ext-500.css';
+@import '@fontsource/montserrat/latin-ext-600.css';
+
 /* Mon COACHhabitat: design tokens and shared components.
    Source of truth: the design handoff (README, section "Design Tokens").
    One breakpoint only (760px); everything else is fluid via clamp(). */
@@ -129,13 +137,7 @@ button { font: inherit; }
 
 /* Photo placeholder (striped), replaced by <img> once the real photo exists */
 .photo { position: relative; overflow: hidden; }
-.photo--ph { background: repeating-linear-gradient(135deg, #EDE4D8 0 14px, #E5DACB 14px 28px); display: flex; align-items: flex-end; padding: 14px; }
-.card-sable .photo--ph { background: repeating-linear-gradient(135deg, #E9DBC8 0 14px, #E1D0B9 14px 28px); }
-.photo--ph .photo__label {
-  font-family: var(--font-mono); font-size: 11px; color: var(--muted-dark);
-  background: rgba(250, 248, 245, .85); padding: 5px 8px; line-height: 1.4;
-}
-.photo img { width: 100%; height: 100%; object-fit: cover; }
+.photo picture, .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Decorative motifs --------------------------------------------------- */
 .deco-tri { position: absolute; width: clamp(90px, 12vw, 200px); height: clamp(90px, 12vw, 200px); background: var(--brun); pointer-events: none; }
