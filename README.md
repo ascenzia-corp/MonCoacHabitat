@@ -28,7 +28,7 @@ src/
   data/content.ts     formules, packs, familles de prestations, vidéos, parcours
   styles/global.css   tokens (couleurs, typo, espacements) et composants partagés
   layouts/Base.astro  <head>, nav, pied de page, barre d'appel mobile, reveal
-  components/         Nav, Footer, CallBar, Photo, Map (carte au clic)
+  components/         Nav, Footer, CallBar, Photo, Map (OpenStreetMap, Leaflet)
   pages/              index, prestations, academie, demande, mentions-legales
   scripts/forms.ts    envoi JSON des formulaires, honeypot, messages d'erreur
 public/assets/        logo.png, casque.png
