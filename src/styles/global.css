@@ -1,10 +1,4 @@
-@import '@fontsource/italiana/latin-400.css';
-@import '@fontsource/montserrat/latin-400.css';
-@import '@fontsource/montserrat/latin-500.css';
-@import '@fontsource/montserrat/latin-600.css';
-@import '@fontsource/montserrat/latin-ext-400.css';
-@import '@fontsource/montserrat/latin-ext-500.css';
-@import '@fontsource/montserrat/latin-ext-600.css';
+@import './font-gaps.css';
 
 /* Mon COACHhabitat: design tokens and shared components.
    Source of truth: the design handoff (README, section "Design Tokens").
@@ -32,7 +26,7 @@
   --dots: #C9BBA8;
   --error: #B4432F;
 
-  --font-display: Italiana, Georgia, serif;
+  --font-display: "Coac Display", Georgia, serif;
   --font-body: Montserrat, system-ui, sans-serif;
   --font-mono: ui-monospace, Menlo, monospace;
 

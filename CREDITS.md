@@ -1,4 +1,19 @@
-# Crédits photographiques
+# Crédits
+
+## Polices
+
+Les polices sont auto-hébergées, licence SIL Open Font License 1.1 (`src/fonts/OFL-Italiana.txt`, `src/fonts/OFL-Montserrat.txt`).
+
+| Police servie | Source | Graisses | Rôle |
+| --- | --- | --- | --- |
+| Coac Display | Italiana, Santiago Orozco, 2011. Nom réservé « Italiana ». | 400 | Titres |
+| Montserrat | The Montserrat Project Authors, 2011. Pas de nom réservé. | 400, 500, 600 | Texte |
+
+Italiana, y compris le fichier complet, ne contient pas œ (U+0153), l’espace insécable (U+00A0), l’espace insécable fine (U+202F) ni € (U+20AC). Il n’existe pas de sous-ensemble latin-ext. `scripts/build-fonts.py` ajoute ces quatre glyphes et renomme la police Coac Display, pour ne pas réutiliser le nom réservé. Le œ est construit à partir du o et du e d’Italiana, l’euro à partir du C.
+
+Montserrat latin contient déjà œ, Œ, É, À, Ç, « », ’, … et €. latin-ext est aussi chargé ; il ne contient pas le œ, qui fait partie du latin. U+202F manque aussi du fichier Montserrat complet. Un fichier d’un seul glyphe par graisse ajoute cette espace, avec la chasse de l’espace fine (U+2009) de Montserrat.
+
+## Photographies
 
 Photos réelles, libres de droits pour un usage commercial, choisies pour coller au sujet de chaque emplacement. Aucune image n’a été générée. Aucun visage n’est présenté comme celui d’Etienne Blanco.
 
