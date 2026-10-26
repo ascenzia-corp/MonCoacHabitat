@@ -1,0 +1,185 @@
+---
+/* Carte OpenStreetMap via Leaflet (dépendance npm, pas de CDN).
+   Centre : Le Gohélis, hameau d’Elven (Nominatim). Depuis ce point,
+   Vannes est à ~15 km (dans le cercle de 20 km), Ploërmel à ~27 km
+   (dans celui de 30 km). Redon est à ~37 km, donc hors du cercle de 30 km. */
+import 'leaflet/dist/leaflet.css';
+
+const zones = [
+  { km: 15, label: '15 km', color: '#F2B51C' },
+  { km: 20, label: '20 km · Vannes', color: '#D9B99B' },
+  { km: 30, label: '30 km · Ploërmel', color: '#3B3129' },
+];
+---
+<figure class="osmap">
+  <div
+    class="osmap__canvas"
+    data-map
+    role="application"
+    tabindex="0"
+    aria-label="Carte interactive de la zone d’intervention, centrée sur Le Gohélis à Elven"
+    aria-describedby="osmap-legend osmap-note"
+  ></div>
+  <ul class="osmap__legend" id="osmap-legend">
+    <li><span class="osmap__swatch osmap__swatch--pin"></span> Le Gohélis, Elven</li>
+    {zones.map((z) => (
+      <li><span class="osmap__swatch" style={`--c:${z.color}`}></span> {z.label}</li>
+    ))}
+  </ul>
+  <figcaption class="osmap__note" id="osmap-note">
+    Les tuiles OpenStreetMap sont chargées. Cette carte ne dépose pas de cookie.
+    Le zoom à la molette s’active après un clic sur la carte.
+  </figcaption>
+</figure>
+
+<script>
+  import L from 'leaflet';
+
+  const center: L.LatLngExpression = [47.7157271, -2.5722259];
+  const rings = [
+    { km: 30, color: '#3B3129', fill: 0.14 },
+    { km: 20, color: '#D9B99B', fill: 0.28 },
+    { km: 15, color: '#F2B51C', fill: 0.38 },
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((el) => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const map = L.map(el, {
+      scrollWheelZoom: false,
+      fadeAnimation: !reduce,
+      zoomAnimation: !reduce,
+      zoomControl: false,
+    });
+    map.setView(center, 9);
+    L.control.zoom({ zoomInTitle: 'Zoomer', zoomOutTitle: 'Dézoomer' }).addTo(map);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    const circles = rings.map((ring) =>
+      L.circle(center, {
+        radius: ring.km * 1000,
+        color: ring.color,
+        weight: 3,
+        fillColor: ring.color,
+        fillOpacity: ring.fill,
+        interactive: false,
+      }).addTo(map),
+    );
+
+    const marker = L.marker(center, {
+      keyboard: true,
+      alt: 'Le Gohélis, 56250 Elven',
+      title: 'Le Gohélis, 56250 Elven',
+      icon: L.divIcon({
+        className: 'osmap__pin',
+        html: '<span class="osmap__pin-dot"></span>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      }),
+    }).addTo(map);
+    marker.bindPopup('Le Gohélis, 56250 Elven');
+
+    map.fitBounds(circles[0].getBounds(), { padding: [28, 28] });
+
+    const arm = () => map.scrollWheelZoom.enable();
+    const disarm = () => map.scrollWheelZoom.disable();
+    el.addEventListener('pointerdown', arm);
+    el.addEventListener('focusin', arm);
+    el.addEventListener('mouseleave', disarm);
+    el.addEventListener('focusout', (event) => {
+      if (event.relatedTarget instanceof Node && el.contains(event.relatedTarget)) return;
+      disarm();
+    });
+
+    const refresh = () => map.invalidateSize();
+    requestAnimationFrame(refresh);
+    window.addEventListener('resize', refresh);
+    const reveal = el.closest('[data-reveal]');
+    if (reveal) {
+      new MutationObserver(refresh).observe(reveal, { attributes: true, attributeFilter: ['class'] });
+    }
+  });
+</script>
+
+<style>
+  .osmap { margin: 0; }
+  .osmap__canvas {
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    z-index: 0;
+  }
+  @media (min-width: 760px) {
+    .osmap__canvas { aspect-ratio: 1.15; }
+  }
+  .osmap__canvas:focus-visible { outline: 2px solid var(--brun); outline-offset: 3px; }
+
+  .osmap__legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin: 12px 0 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  .osmap__legend li { display: flex; align-items: center; gap: 8px; }
+  .osmap__swatch {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--c, var(--brun));
+    box-shadow: inset 0 0 0 2px var(--c, var(--brun)), inset 0 0 0 5px color-mix(in srgb, var(--c, var(--brun)) 35%, transparent);
+  }
+  .osmap__swatch--pin {
+    background: var(--casque);
+    box-shadow: inset 0 0 0 2px var(--brun);
+  }
+  .osmap__note {
+    margin: 8px 0 0;
+    max-width: 62ch;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted-dark);
+  }
+
+  .osmap :global(.leaflet-container) { font-family: var(--font-body); background: var(--bg-2); }
+  .osmap :global(.leaflet-control-zoom a) {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .osmap :global(.leaflet-control-attribution) {
+    font-size: 11px;
+    line-height: 1.3;
+    background: rgba(250, 248, 245, .92);
+    color: var(--ink-2);
+    max-width: 78%;
+    white-space: normal;
+  }
+  .osmap :global(.leaflet-control-attribution a) { color: var(--ink); }
+  .osmap :global(.osmap__pin) { background: transparent; border: 0; }
+  .osmap :global(.osmap__pin-dot) {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--casque);
+    border: 2px solid var(--brun);
+    box-shadow: 0 0 0 4px rgba(242, 181, 28, .35);
+  }
+  .osmap :global(.leaflet-popup-content-wrapper) {
+    border-radius: 2px;
+    color: var(--ink);
+    font-family: var(--font-body);
+  }
+</style>

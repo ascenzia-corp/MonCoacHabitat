@@ -2,31 +2,38 @@
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
-import { videos, parcours } from '../data/content';
+import { academiePhoto, videos, parcours } from '../data/content';
 ---
 <Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHhabitat." active="academie" footerRule>
   <header class="ahero on-brun">
     <div class="deco-dots deco-dots--brun ahero__dots"></div>
     <img src="/assets/casque.png" alt="" class="ahero__casque" width="560" height="500" loading="eager" />
-    <p class="eyebrow">Académie · chaîne YouTube «&nbsp;{site.youtube.name}&nbsp;»</p>
+    <p class="eyebrow">{site.youtube.interim ? 'Académie · bientôt sur la chaîne du coach' : `Académie · chaîne YouTube « ${site.youtube.name} »`}</p>
     <h1 class="t-hero ahero__title">Les gestes du chantier, filmés de près.</h1>
     <p class="lead ahero__lead">Pas de visage, pas de blabla : un casque, deux mains et la technique expliquée étape par étape. Gratuit sur YouTube, approfondi dans les parcours de l’Académie.</p>
     <a href="#liste" class="btn btn--primary">Rejoindre la liste d’attente</a>
   </header>
 
+  <figure class="academie-photo">
+    <Photo photo={academiePhoto} ratio="16 / 9" sizes="100vw" loading="eager" />
+  </figure>
+
   <section class="section videos">
     <div class="deco-tri deco-tri--tl"></div>
     <div class="section-head" data-reveal>
       <p class="eyebrow">Sur la chaîne</p>
-      <h2 class="t-section">Les premières vidéos.</h2>
+      <h2 class="t-section">{site.youtube.interim ? 'Des gestes à voir dès maintenant.' : 'Les premières vidéos.'}</h2>
+      {site.youtube.interim && (
+        <p class="videos__note">La chaîne Mon COACHhabitat n’est pas encore en ligne. En attendant, ces vidéos viennent de {site.youtube.name}.</p>
+      )}
     </div>
     <div class="videos__grid container" data-reveal>
       {videos.map((v) => (
         <article class="video">
-          <a href={v.url ?? site.youtube.url} class="video__thumb-link" rel="noopener" aria-label={`Regarder : ${v.titre}`}>
-            <Photo photo={v.photo} ratio="16 / 9" kind="vignette" class="video__thumb">
+          <a href={v.url} class="video__thumb-link" target="_blank" rel="noopener noreferrer" aria-label={`Regarder : ${v.titre}`}>
+            <Photo photo={v.photo} ratio="16 / 9" sizes="(min-width: 980px) 30vw, 92vw" class="video__thumb">
               <span class="video__play" aria-hidden="true"><span></span></span>
-              <span class="video__duration">{v.duree}</span>
+              {v.duree && <span class="video__duration">{v.duree}</span>}
             </Photo>
           </a>
           <h3 class="video__title">{v.titre}</h3>
@@ -67,14 +74,14 @@ import { videos, parcours } from '../data/content';
           <span>La newsletter du chantier</span>
           <span>Un cours d’essai complet</span>
         </div>
-        <a href={site.youtube.url} class="btn btn--outline-dark offer__cta offer__cta--dark" rel="noopener">Voir la chaîne</a>
+        <a href={site.youtube.url} class="btn btn--outline-dark offer__cta offer__cta--dark" target="_blank" rel="noopener noreferrer">Voir la chaîne {site.youtube.name}</a>
       </article>
       <article class="offer offer--brun on-brun">
         <div class="offer__dots"></div>
         <span class="offer__eyebrow">Académie</span>
-        <div class="offer__prices">
-          <div class="offer__price"><span class="offer__amount">—&nbsp;€</span><span class="offer__unit">par mois</span></div>
-          <div class="offer__price"><span class="offer__amount offer__amount--small">—&nbsp;€</span><span class="offer__unit">par an</span></div>
+        <div class="offer__price">
+          <span class="offer__amount offer__amount--label">Tarif sur demande</span>
+          <span class="offer__unit">par mois ou par an</span>
         </div>
         <div class="offer__list">
           <span>Tous les parcours de cours</span>
@@ -92,7 +99,7 @@ import { videos, parcours } from '../data/content';
     <div class="waitlist__inner" data-reveal>
       <p class="eyebrow waitlist__eyebrow">Bientôt disponible</p>
       <h2 class="t-section waitlist__title">Soyez prévenu à l’ouverture.</h2>
-      <p class="waitlist__text">Une adresse email, rien d’autre. Vous recevrez la première vidéo et le cours d’essai en avant-première.</p>
+      <p class="waitlist__text">Les parcours de cours et l’abonnement seront bientôt disponibles. Une adresse email, rien d’autre : vous serez prévenu à l’ouverture, avec la première vidéo et le cours d’essai.</p>
       <form class="waitlist__form" id="waitlist" method="post" action={site.forms.waitlist || undefined} data-endpoint={site.forms.waitlist} novalidate>
         <label for="waitlist-email" class="visually-hidden">Votre adresse email</label>
         <input id="waitlist-email" class="waitlist__input" type="email" name="email" required placeholder="votre@email.fr" autocomplete="email" />
@@ -113,7 +120,10 @@ import { videos, parcours } from '../data/content';
   .ahero__casque { width: min(40vw, 180px); height: auto; margin: 0 auto 28px; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .35)); }
   .ahero__title { font-size: clamp(40px, 5.6vw, 80px); margin: 0 auto 24px; max-width: 18ch; }
   .ahero__lead { margin: 0 auto 40px; max-width: 52ch; }
+  .academie-photo { margin: 0; }
+  .academie-photo :global(.photo) { border-radius: 0; }
 
+  .videos__note { margin: 18px auto 0; max-width: 46ch; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
   .videos__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--gutter); }
   .video { display: flex; flex-direction: column; gap: 12px; }
   .video__thumb-link { display: block; text-decoration: none; color: inherit; }
@@ -141,6 +151,7 @@ import { videos, parcours } from '../data/content';
   .offer__prices { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
   .offer__price { display: flex; flex-direction: column; }
   .offer__amount { font-family: var(--font-display); font-size: 84px; line-height: .95; }
+  .offer__amount--label { font-size: clamp(34px, 4vw, 52px); line-height: 1.05; }
   .offer__amount--small { font-size: 44px; line-height: 1; }
   .offer__unit { font-size: 13px; color: var(--muted); margin-top: 6px; }
   .offer--brun .offer__unit { color: var(--on-brun-eyebrow); }

@@ -6,7 +6,7 @@ const prestations = [
   'Conseil à distance (30 min ou 1 h)',
   'Visite conseil achat / vente (2 h, 80 €)',
   'Visite conseil travaux à domicile (2 h, 80 €)',
-  'Coaching réalisation sur chantier (3, 6, 10 h ou plus)',
+  'Coaching réalisation sur chantier (3, 6, 10 h ou plus, séances de 3 h minimum)',
   'Coaching personnalisé (sur devis)',
   'Pack d’heures (10 h, 20 h, 40 h)',
   'Je ne sais pas encore',
@@ -18,7 +18,7 @@ const budgets = ['Moins de 2 000 €', '2 000 à 5 000 €', '5 000 à 15 000�
     <div class="deco-tri deco-tri--tr"></div>
     <div class="demande__head">
       <p class="eyebrow">Demander une prestation</p>
-      <h1 class="t-page demande__title">Décrivez votre projet, je vous réponds sous 48 h.</h1>
+      <h1 class="t-page demande__title">Décrivez votre projet, je vous réponds sous 48 h ouvrées.</h1>
     </div>
     <div class="demande__cols">
       <form class="form" id="request-form" method="post" action={site.forms.request || undefined} enctype="multipart/form-data" data-endpoint={site.forms.request} novalidate>
@@ -31,7 +31,7 @@ const budgets = ['Moins de 2 000 €', '2 000 à 5 000 €', '5 000 à 15 000�
           <span class="field__error" hidden>Merci d’indiquer une adresse email valide.</span>
         </label>
         <label class="field">Téléphone
-          <input class="input" required type="tel" name="telephone" placeholder="06 00 00 00 00" autocomplete="tel" />
+          <input class="input" required type="tel" name="telephone" placeholder="+33 6 61 45 29 50" autocomplete="tel" />
           <span class="field__error" hidden>Merci d’indiquer un numéro de téléphone.</span>
         </label>
         <label class="field">Commune du projet

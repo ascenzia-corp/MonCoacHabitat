@@ -1,17 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
+import Map from '../components/Map.astro';
 import { site } from '../data/site';
-import { formules } from '../data/content';
+import { accueilPhotos, formules } from '../data/content';
 
 const pourQui = [
-  { titre: 'Je rénove', texte: 'Un plan d’action clair, les bons matériaux et un coach à vos côtés sur le chantier.', lien: 'Voir les formules chantier', href: '/prestations', photo: { alt: 'Mur décroûté et seau d’enduit', brief: 'mur décroûté, seau d’enduit' } },
-  { titre: 'J’achète ou je vends', texte: 'Une visite de deux heures pour mesurer le potentiel, les travaux à prévoir et leur coût.', lien: 'Voir la visite conseil', href: '/prestations', photo: { alt: 'Façade de maison bretonne en pierre', brief: 'façade bretonne en pierre' } },
-  { titre: 'J’apprends', texte: 'Les gestes du gros œuvre aux finitions, les outils en sécurité, sur place ou bientôt en ligne.', lien: 'Découvrir l’Académie', href: '/academie', photo: { alt: 'Mains qui règlent une scie circulaire', brief: 'mains réglant une scie circulaire' } },
+  { titre: 'Je rénove', texte: 'Un plan d’action clair, les bons matériaux et un coach à vos côtés sur le chantier.', lien: 'Voir les formules chantier', href: '/prestations', photo: accueilPhotos.renove },
+  { titre: 'J’achète ou je vends', texte: 'Une visite de deux heures pour mesurer le potentiel, les travaux à prévoir et leur coût.', lien: 'Voir la visite conseil', href: '/prestations', photo: accueilPhotos.facade },
+  { titre: 'J’apprends', texte: 'Les gestes du gros œuvre aux finitions, les outils en sécurité, sur place ou dans les parcours bientôt en ligne.', lien: 'Découvrir l’Académie', href: '/academie', photo: accueilPhotos.scie },
 ];
 const etapes = [
   { num: '01', titre: 'Vous décrivez votre projet', texte: 'Par le formulaire, par téléphone ou WhatsApp. Quelques photos suffisent pour démarrer.' },
-  { num: '02', titre: 'On se parle, ou je viens', texte: 'À distance pour une question précise, sur place pour une visite ou une séance de coaching.' },
+  { num: '02', titre: 'Je vous réponds, ou je viens', texte: 'À distance pour une question précise, sur place pour une visite ou une séance de coaching.' },
   { num: '03', titre: 'Vous avancez avec un plan clair', texte: 'Tâches, matériaux, budget et planning : vous savez quoi faire, dans quel ordre.' },
 ];
 ---
@@ -36,7 +37,7 @@ const etapes = [
     <div class="pourqui__grid container" data-reveal>
       {pourQui.map((c) => (
         <article class="card-sable pourqui__card">
-          <Photo photo={c.photo} />
+          <Photo photo={c.photo} sizes="(min-width: 980px) 30vw, 92vw" />
           <div class="pourqui__body">
             <h3 class="t-card">{c.titre}</h3>
             <p class="body">{c.texte}</p>
@@ -55,7 +56,7 @@ const etapes = [
     <div class="formules__grid" data-reveal>
       {formules.map((f) => (
         <article class="card-surface formule">
-          <Photo photo={f.photo} />
+          <Photo photo={f.photo} sizes="(min-width: 1100px) 18vw, (min-width: 700px) 45vw, 92vw" />
           <div class="formule__body">
             <h3 class="formule__title">{f.nom}</h3>
             <p class="formule__duree">{f.duree}</p>
@@ -99,23 +100,11 @@ const etapes = [
       <div class="zone__text" data-reveal>
         <p class="eyebrow">Zone d’intervention</p>
         <h2 class="t-section zone__title">Basé à Elven, au cœur du Morbihan.</h2>
-        <p class="zone__p">Visites et coaching autour de Vannes, Ploërmel et Redon. Le conseil à distance, lui, n’a pas de frontière.</p>
+        <p class="zone__p">Visites et coaching dans un rayon de 30&nbsp;km autour d’Elven&nbsp;: Vannes et Ploërmel. Redon est plus loin, à environ 37&nbsp;km. Le conseil à distance, lui, n’a pas de frontière.</p>
         <p class="zone__note">Des frais de déplacement peuvent être demandés selon la distance.</p>
       </div>
       <div class="zone__map-wrap" data-reveal>
-        <div class="map" role="img" aria-label="Carte schématique : Elven au centre, Vannes, Ploërmel et Redon autour, cercles de 20 et 40 km">
-          <div class="map__ring map__ring--20"></div>
-          <div class="map__ring map__ring--40"></div>
-          <span class="map__elven"></span>
-          <span class="map__label map__label--elven">Elven</span>
-          <span class="map__dot" style="left:14.7%;top:71%"></span>
-          <span class="map__label" style="left:14.7%;top:71%;transform:translate(10px,-8px)">Vannes</span>
-          <span class="map__dot" style="left:52.6%;top:22%"></span>
-          <span class="map__label" style="left:52.6%;top:22%;transform:translate(10px,-8px)">Ploërmel</span>
-          <span class="map__dot" style="left:86%;top:73%"></span>
-          <span class="map__label" style="left:86%;top:73%;transform:translate(-100%,8px)">Redon</span>
-          <span class="map__legend">cercles ≈ 20 km et 40 km autour d’Elven</span>
-        </div>
+        <Map />
       </div>
     </div>
   </section>
@@ -124,7 +113,7 @@ const etapes = [
     <div class="deco-tri deco-tri--tr deco-tri--light"></div>
     <div class="bandeau__inner" data-reveal>
       <p class="eyebrow">Académie</p>
-      <h2 class="t-section bandeau__title">Apprenez à distance : la chaîne YouTube et les parcours de cours arrivent.</h2>
+      <h2 class="t-section bandeau__title">Apprenez à distance : des gestes de chantier en vidéo, et les parcours de cours bientôt disponibles.</h2>
       <a href="/academie" class="btn btn--outline-light">Découvrir l’Académie</a>
     </div>
   </section>
@@ -194,19 +183,6 @@ const etapes = [
   .zone__title { margin-bottom: 22px; }
   .zone__p { margin: 0 0 16px; font-size: 16px; line-height: 1.65; color: var(--ink-2); text-wrap: pretty; }
   .zone__note { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
-  .map {
-    position: relative; width: 100%; aspect-ratio: 1.17; background: var(--bg);
-    background-image: radial-gradient(#D5C9B9 1px, transparent 1px); background-size: 20px 20px;
-    border: 1px solid var(--line-2); overflow: hidden; font-size: 13px; font-weight: 500;
-  }
-  .map__ring { position: absolute; left: 32.6%; top: 58%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
-  .map__ring--20 { width: 56%; border: 1px solid #C9B9A5; }
-  .map__ring--40 { width: 112%; border: 1px dashed #D3C5B3; }
-  .map__elven { position: absolute; left: 32.6%; top: 58%; transform: translate(-50%, -50%); width: 14px; height: 14px; background: var(--casque); border-radius: 50%; box-shadow: 0 0 0 5px rgba(242, 181, 28, .25); }
-  .map__label { position: absolute; color: var(--ink-2); white-space: nowrap; }
-  .map__label--elven { left: 32.6%; top: 58%; transform: translate(14px, -8px); font-weight: 600; color: var(--ink); }
-  .map__dot { position: absolute; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--brun); border-radius: 50%; }
-  .map__legend { position: absolute; left: 12px; bottom: 10px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); font-weight: 400; }
 
   /* Bandeau Académie */
   .bandeau { text-align: center; }

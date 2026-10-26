@@ -8,8 +8,8 @@ export interface SubmitResult {
 }
 
 const NOT_CONFIGURED =
-  'L’envoi en ligne n’est pas encore activé. Appelez-nous ou écrivez-nous sur WhatsApp, nous vous répondrons rapidement.';
-const FAILED = 'L’envoi a échoué. Réessayez dans un instant, ou appelez-nous directement.';
+  'L’envoi en ligne n’est pas encore activé. Appelez-moi ou écrivez-moi sur WhatsApp, je vous répondrai rapidement.';
+const FAILED = 'L’envoi a échoué. Réessayez dans un instant, ou appelez-moi directement.';
 
 export async function submitJson(form: HTMLFormElement): Promise<SubmitResult> {
   const endpoint = form.dataset.endpoint?.trim();

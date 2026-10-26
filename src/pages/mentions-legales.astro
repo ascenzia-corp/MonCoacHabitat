@@ -1,6 +1,4 @@
 ---
-/* Minimal legal page: the footer links to it in the design, but the page itself
-   was not mocked up. Content to complete by the client (TODO placeholders). */
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 ---
@@ -13,18 +11,24 @@ import { site } from '../data/site';
 
       <h2>Éditeur du site</h2>
       <p>{site.name}<br />{site.address.line1}, {site.address.line2}<br />Siret {site.siret}</p>
-      <p>Directeur de la publication : [Nom du gérant]. Contact : {site.phone.display}, <a href={site.whatsapp} rel="noopener">WhatsApp</a>.</p>
+      <p>
+        Directeur de la publication : {site.manager}, gérant.
+        Contact : <a href={site.phone.href}>{site.phone.display}</a>,
+        <a href={site.whatsapp} rel="noopener">WhatsApp</a>,
+        ou le <a href="/demande">formulaire de demande</a>.
+      </p>
 
       <h2>Hébergement</h2>
-      <p>[Nom de l’hébergeur], [adresse de l’hébergeur].</p>
+      <p>{site.host.name}, {site.host.address}.</p>
 
       <h2 id="donnees">Données personnelles</h2>
       <p>Les informations saisies dans le formulaire de demande (nom, email, téléphone, commune, description du projet, pièces jointes) servent uniquement à traiter votre demande et à vous recontacter. Elles ne sont ni vendues ni transmises à des tiers, et ne sont pas conservées au-delà du suivi de votre projet.</p>
       <p>L’adresse email laissée sur la liste d’attente de l’Académie sert uniquement à vous prévenir de l’ouverture. Chaque message contient un lien de désinscription.</p>
-      <p>Conformément au RGPD, vous pouvez demander l’accès, la rectification ou la suppression de vos données en écrivant à [adresse email de contact].</p>
+      <p>Conformément au RGPD, vous pouvez demander l’accès, la rectification ou la suppression de vos données via le <a href="/demande">formulaire de demande</a>, ou par téléphone au {site.phone.display}. Il n’y a pas d’adresse email de contact publiée.</p>
+      <p>La carte de la page d’accueil charge des tuiles OpenStreetMap. Cette carte ne dépose pas de cookie.</p>
 
       <h2>Cookies</h2>
-      <p>Ce site ne dépose aucun cookie de suivi. Les polices de caractères sont chargées depuis Google Fonts.</p>
+      <p>Ce site ne dépose pas de cookie de mesure d’audience. Les polices de caractères sont hébergées sur ce site. La carte OpenStreetMap ne dépose pas de cookie : seules ses tuiles sont chargées.</p>
 
       <h2>Responsabilité</h2>
       <p>Mon COACHhabitat conseille et accompagne ; la réalisation des travaux reste sous la responsabilité du particulier.</p>
@@ -38,4 +42,5 @@ import { site } from '../data/site';
   .legal h1 { margin-bottom: clamp(32px, 4vw, 56px); color: var(--ink); }
   .legal h2 { font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.1; margin: 40px 0 12px; color: var(--ink); }
   .legal p { margin: 0 0 12px; }
+  .legal a { color: var(--ink); }
 </style>
