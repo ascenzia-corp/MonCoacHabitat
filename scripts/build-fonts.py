@@ -111,14 +111,14 @@ def rename_display(font: TTFont) -> None:
     copyright_notice = (
         "Copyright (c) 2011 Santiago Orozco (hi@typemade.mx), "
         "with reserved font name Italiana. "
-        "Modified in 2026 for Mon COACHhabitat: U+0153, U+00A0, U+202F and "
+        "Modified in 2026 for Mon COACHabitat: U+0153, U+00A0, U+202F and "
         "U+20AC were added. This modified version is not named Italiana."
     )
     names = {
         0: copyright_notice,
         1: "Coac Display",
         2: "Regular",
-        3: "Coac Display Regular; 2026; Mon COACHhabitat",
+        3: "Coac Display Regular; 2026; Mon COACHabitat",
         4: "Coac Display Regular",
         6: "CoacDisplay-Regular",
         13: "This Font Software is licensed under the SIL Open Font License, Version 1.1.",

@@ -1,6 +1,6 @@
 @import './font-gaps.css';
 
-/* Mon COACHhabitat: design tokens and shared components.
+/* Mon COACHabitat: design tokens and shared components.
    Source of truth: the design handoff (README, section "Design Tokens").
    One breakpoint only (760px); everything else is fluid via clamp(). */
 

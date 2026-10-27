@@ -1,6 +1,6 @@
-# Mon COACHhabitat, site vitrine
+# Mon COACHabitat, site vitrine
 
-Site statique 4 pages pour Mon COACHhabitat (coach travaux et habitat, Elven,
+Site statique 4 pages pour Mon COACHabitat (coach travaux et habitat, Elven,
 Morbihan) : Accueil, Prestations et tarifs, Académie, Demander une prestation,
 plus une page Mentions légales minimale.
 

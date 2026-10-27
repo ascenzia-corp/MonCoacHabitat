@@ -4,7 +4,7 @@ import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
 import { academiePhoto, videos, parcours } from '../data/content';
 ---
-<Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHhabitat." active="academie" footerRule>
+<Base title={`Académie, ${site.name}`} description="Les gestes du chantier, filmés de près. Gratuit sur YouTube, approfondi dans les parcours de cours de l'Académie Mon COACHabitat." active="academie" footerRule>
   <header class="ahero on-brun">
     <div class="deco-dots deco-dots--brun ahero__dots"></div>
     <img src="/assets/casque.png" alt="" class="ahero__casque" width="560" height="500" loading="eager" />
@@ -24,7 +24,7 @@ import { academiePhoto, videos, parcours } from '../data/content';
       <p class="eyebrow">Sur la chaîne</p>
       <h2 class="t-section">{site.youtube.interim ? 'Des gestes à voir dès maintenant.' : 'Les premières vidéos.'}</h2>
       {site.youtube.interim && (
-        <p class="videos__note">La chaîne Mon COACHhabitat n’est pas encore en ligne. En attendant, ces vidéos viennent de {site.youtube.name}.</p>
+        <p class="videos__note">La chaîne Mon COACHabitat n’est pas encore en ligne. En attendant, ces vidéos viennent de {site.youtube.name}.</p>
       )}
     </div>
     <div class="videos__grid container" data-reveal>

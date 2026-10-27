@@ -2,8 +2,8 @@
    restent « sur demande » : ils ne sont pas inventés. */
 
 export const site = {
-  name: 'Mon COACHhabitat',
-  title: 'Mon COACHhabitat, coach travaux et habitat, Elven (56)',
+  name: 'Mon COACHabitat',
+  title: 'Mon COACHabitat, coach travaux et habitat, Elven (56)',
   description:
     'Faites vos travaux vous-même, avec un pro à vos côtés. Conseil, visites et coaching sur chantier dans le Morbihan. 40 € de l’heure.',
   address: { line1: 'Le Gohélis', line2: '56250 Elven' },
@@ -20,7 +20,7 @@ export const site = {
 
   /**
    * Chaîne YouTube affichée sur le site. Une seule adresse à remplacer
-   * quand la chaîne de Mon COACHhabitat existera. `interim` affiche la
+   * quand la chaîne de Mon COACHabitat existera. `interim` affiche la
    * mention « bientôt » : la chaîne du coach n’est pas encore ouverte.
    */
   youtube: {
